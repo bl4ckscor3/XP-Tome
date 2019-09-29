@@ -3,13 +3,17 @@ package bl4ckscor3.mod.xptome;
 import java.util.List;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import openmods.utils.EnchantmentUtils;
 
@@ -17,16 +21,17 @@ public class ItemXPTome extends Item
 {
 	public static final String NAME = "xp_book";
 	public static final int MAX_STORAGE = 1395; //first 30 levels
+	private static final Style TOOLTIP_STYLE = new Style().setColor(TextFormatting.GRAY);
+	private static final ITextComponent TOOLTIP_1 = new StringTextComponent("Sneak + right-click to store as much XP as possible").setStyle(TOOLTIP_STYLE);
+	private static final ITextComponent TOOLTIP_2 = new StringTextComponent("Right-click to retrieve all XP").setStyle(TOOLTIP_STYLE);
 
 	public ItemXPTome()
 	{
-		setCreativeTab(CreativeTabs.MISC);
-		setMaxDamage(MAX_STORAGE);
-		setMaxStackSize(1);
+		super(new Item.Properties().maxDamage(MAX_STORAGE).group(ItemGroup.MISC));
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
 	{
 		ItemStack stack = player.getHeldItem(hand);
 
@@ -42,7 +47,13 @@ public class ItemXPTome extends Item
 			setStoredXP(stack, 0);
 		}
 
-		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+		return new ActionResult<>(ActionResultType.SUCCESS, stack);
+	}
+
+	@Override
+	public void onCreated(ItemStack stack, World world, PlayerEntity player)
+	{
+		stack.setDamage(MAX_STORAGE);
 	}
 
 	@Override
@@ -52,11 +63,11 @@ public class ItemXPTome extends Item
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag)
+	public void addInformation(ItemStack stack, World world, List<ITextComponent> tooltip, ITooltipFlag flag)
 	{
-		tooltip.add("Sneak + right-click to store as much XP as possible");
-		tooltip.add("Right-click to retrieve all XP");
-		tooltip.add(String.format("%s/%s XP stored", getXPStored(stack), MAX_STORAGE));
+		tooltip.add(TOOLTIP_1);
+		tooltip.add(TOOLTIP_2);
+		tooltip.add(new StringTextComponent(String.format("%s/%s XP stored", getXPStored(stack), MAX_STORAGE)).setStyle(TOOLTIP_STYLE));
 	}
 
 	/**
@@ -88,7 +99,7 @@ public class ItemXPTome extends Item
 	 */
 	public void setStoredXP(ItemStack stack, int amount)
 	{
-		stack.setItemDamage(MAX_STORAGE - amount);
+		stack.setDamage(MAX_STORAGE - amount);
 	}
 
 	/**
@@ -98,6 +109,6 @@ public class ItemXPTome extends Item
 	 */
 	public int getXPStored(ItemStack stack)
 	{
-		return MAX_STORAGE - stack.getItemDamage(); //if the damage is 0, the book is full on xp
+		return MAX_STORAGE - stack.getDamage(); //if the damage is 0, the book is full on xp
 	}
 }

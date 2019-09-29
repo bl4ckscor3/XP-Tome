@@ -1,0 +1,25 @@
+modLoader="javafml" #mandatory
+loaderVersion="[28,)" #mandatory
+issueTrackerURL="https://github.com/bl4ckscor3/XP-Tome/issues"
+displayURL="http://minecraft.curseforge.com/projects/xp-tome"
+authors="bl4ckscor3"
+
+[[mods]] #mandatory
+modId="xpbook" #mandatory
+version="v1.0" #mandatory
+displayName="XP Tome" #mandatory
+description='''Adds a book that can store a limited amount of XP.''' #mandatory
+
+[[dependencies.xpbook]]
+    modId="forge"
+    mandatory=true
+    versionRange="[28,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.xpbook]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.14,1.15)"
+    ordering="NONE"
+    side="BOTH"
