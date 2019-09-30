@@ -1,15 +1,18 @@
 package bl4ckscor3.mod.xptome;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import openmods.utils.EnchantmentUtils;
 
@@ -17,6 +20,7 @@ public class ItemXPTome extends Item
 {
 	public static final String NAME = "xp_book";
 	public static final int MAX_STORAGE = 1395; //first 30 levels
+	private final Random random = new Random();
 
 	public ItemXPTome()
 	{
@@ -30,19 +34,38 @@ public class ItemXPTome extends Item
 	{
 		ItemStack stack = player.getHeldItem(hand);
 
-		if(player.isSneaking())
+		if(player.isSneaking() && getXPStored(stack) != MAX_STORAGE)
 		{
-			int actuallyStored = addXP(stack, EnchantmentUtils.getPlayerXP(player)); //try to store all of the player's levels
+			int playerXP = EnchantmentUtils.getPlayerXP(player);
+
+			if(playerXP == 0)
+				return new ActionResult<>(EnumActionResult.PASS, stack);
+
+			int actuallyStored = addXP(stack, playerXP); //try to store all of the player's levels
 
 			EnchantmentUtils.addPlayerXP(player, -actuallyStored);
+
+			if(!world.isRemote)
+				world.playSound(null, player.getPosition(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (random.nextFloat() - random.nextFloat()) * 0.35F + 0.9F);
+
+			return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 		}
-		else
+		else if(!player.isSneaking() && getXPStored(stack) != 0)
 		{
 			EnchantmentUtils.addPlayerXP(player, getXPStored(stack));
 			setStoredXP(stack, 0);
+
+			if(!world.isRemote)
+			{
+				float pitchMultiplier = player.experienceLevel > 30 ? 1.0F : player.experienceLevel / 30.0F;
+
+				world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, pitchMultiplier * 0.75F, 1.0F);
+			}
+
+			return new ActionResult<>(EnumActionResult.SUCCESS, stack);
 		}
 
-		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+		return new ActionResult<>(EnumActionResult.PASS, stack);
 	}
 
 	@Override
