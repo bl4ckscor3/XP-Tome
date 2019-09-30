@@ -1,6 +1,7 @@
 package bl4ckscor3.mod.xptome;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
@@ -24,6 +27,7 @@ public class ItemXPTome extends Item
 	private static final Style TOOLTIP_STYLE = new Style().setColor(TextFormatting.GRAY);
 	private static final ITextComponent TOOLTIP_1 = new StringTextComponent("Sneak + right-click to store as much XP as possible").setStyle(TOOLTIP_STYLE);
 	private static final ITextComponent TOOLTIP_2 = new StringTextComponent("Right-click to retrieve all XP").setStyle(TOOLTIP_STYLE);
+	private final Random random = new Random();
 
 	public ItemXPTome()
 	{
@@ -35,19 +39,38 @@ public class ItemXPTome extends Item
 	{
 		ItemStack stack = player.getHeldItem(hand);
 
-		if(player.isSneaking())
+		if(player.isSneaking() && getXPStored(stack) != MAX_STORAGE)
 		{
-			int actuallyStored = addXP(stack, EnchantmentUtils.getPlayerXP(player)); //try to store all of the player's levels
+			int playerXP = EnchantmentUtils.getPlayerXP(player);
+
+			if(playerXP == 0)
+				return new ActionResult<>(ActionResultType.PASS, stack);
+
+			int actuallyStored = addXP(stack, playerXP); //try to store all of the player's levels
 
 			EnchantmentUtils.addPlayerXP(player, -actuallyStored);
+
+			if(!world.isRemote)
+				world.playSound(null, player.getPosition(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (random.nextFloat() - random.nextFloat()) * 0.35F + 0.9F);
+
+			return new ActionResult<>(ActionResultType.SUCCESS, stack);
 		}
-		else
+		else if(!player.isSneaking() && getXPStored(stack) != 0)
 		{
 			EnchantmentUtils.addPlayerXP(player, getXPStored(stack));
 			setStoredXP(stack, 0);
+
+			if(!world.isRemote)
+			{
+				float pitchMultiplier = player.experienceLevel > 30 ? 1.0F : player.experienceLevel / 30.0F;
+
+				world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, pitchMultiplier * 0.75F, 1.0F);
+			}
+
+			return new ActionResult<>(ActionResultType.SUCCESS, stack);
 		}
 
-		return new ActionResult<>(ActionResultType.SUCCESS, stack);
+		return new ActionResult<>(ActionResultType.PASS, stack);
 	}
 
 	@Override

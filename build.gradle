@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 
-version = '1.14.4-v1.0'
+version = '1.14.4-v1.1'
 group = 'bl4ckscor3.mod.xptome'
 archivesBaseName = 'xptome'
 
@@ -56,9 +56,9 @@ jar {
     manifest {
         attributes(["Specification-Title": "XP Tome",
                     "Specification-Vendor": "bl4ckscor3",
-                    "Specification-Version": "v1.0",
+                    "Specification-Version": "v1.1",
                     "Implementation-Title": "XP Tome",
-                    "Implementation-Version": "v1.0",
+                    "Implementation-Version": "v1.1",
                     "Implementation-Vendor" :"bl4ckscor3",
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
