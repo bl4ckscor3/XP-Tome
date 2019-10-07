@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -19,7 +20,7 @@ public class XPTome
 {
 	public static final String MODID = "xpbook";
 	public static final String NAME = "XP Tome";
-	public static final String VERSION = "v1.1.1";
+	public static final String VERSION = "v1.1.2";
 	public static final String MC_VERSION = "1.12.2";
 	@ObjectHolder(MODID + ":" + ItemXPTome.NAME)
 	public static final Item XP_BOOK = null;
@@ -41,5 +42,12 @@ public class XPTome
 	public static void onRegisterItems(RegistryEvent.Register<Item> event)
 	{
 		event.getRegistry().register(new ItemXPTome().setRegistryName(new ResourceLocation(MODID, ItemXPTome.NAME)).setTranslationKey(MODID + ":" + ItemXPTome.NAME));
+	}
+
+	@SubscribeEvent
+	public static void onAnvilUpdate(AnvilUpdateEvent event)
+	{
+		if(event.getLeft().getItem() == XP_BOOK || event.getRight().getItem() == XP_BOOK)
+			event.setCanceled(true);
 	}
 }

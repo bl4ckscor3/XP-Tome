@@ -75,6 +75,30 @@ public class ItemXPTome extends Item
 	}
 
 	@Override
+	public boolean isBookEnchantable(ItemStack stack, ItemStack book)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isEnchantable(ItemStack stack)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isRepairable()
+	{
+		return false;
+	}
+
+	@Override
 	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag)
 	{
 		tooltip.add("Sneak + right-click to store as much XP as possible");
