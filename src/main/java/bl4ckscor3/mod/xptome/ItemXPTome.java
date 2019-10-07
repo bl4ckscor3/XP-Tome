@@ -86,6 +86,30 @@ public class ItemXPTome extends Item
 	}
 
 	@Override
+	public boolean isBookEnchantable(ItemStack stack, ItemStack book)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isEnchantable(ItemStack stack)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isRepairable(ItemStack stack)
+	{
+		return false;
+	}
+
+	@Override
 	public void addInformation(ItemStack stack, World world, List<ITextComponent> tooltip, ITooltipFlag flag)
 	{
 		tooltip.add(TOOLTIP_1);
