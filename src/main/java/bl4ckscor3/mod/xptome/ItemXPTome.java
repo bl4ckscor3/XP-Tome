@@ -3,6 +3,7 @@ package bl4ckscor3.mod.xptome;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -101,9 +102,9 @@ public class ItemXPTome extends Item
 	@Override
 	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag)
 	{
-		tooltip.add("Sneak + right-click to store as much XP as possible");
-		tooltip.add("Right-click to retrieve all XP");
-		tooltip.add(String.format("%s/%s XP stored", getXPStored(stack), MAX_STORAGE));
+		tooltip.add(I18n.format("xpbook.tooltip.1"));
+		tooltip.add(I18n.format("xpbook.tooltip.2"));
+		tooltip.add(I18n.format("xpbook.tooltip.3", getXPStored(stack), MAX_STORAGE));
 	}
 
 	/**
