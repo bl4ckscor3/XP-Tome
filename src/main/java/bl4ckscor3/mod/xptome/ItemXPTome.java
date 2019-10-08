@@ -14,9 +14,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import openmods.utils.EnchantmentUtils;
 
@@ -25,8 +25,8 @@ public class ItemXPTome extends Item
 	public static final String NAME = "xp_book";
 	public static final int MAX_STORAGE = 1395; //first 30 levels
 	private static final Style TOOLTIP_STYLE = new Style().setColor(TextFormatting.GRAY);
-	private static final ITextComponent TOOLTIP_1 = new StringTextComponent("Sneak + right-click to store as much XP as possible").setStyle(TOOLTIP_STYLE);
-	private static final ITextComponent TOOLTIP_2 = new StringTextComponent("Right-click to retrieve all XP").setStyle(TOOLTIP_STYLE);
+	private static final ITextComponent TOOLTIP_1 = new TranslationTextComponent("xpbook.tooltip.1").setStyle(TOOLTIP_STYLE);
+	private static final ITextComponent TOOLTIP_2 = new TranslationTextComponent("xpbook.tooltip.2").setStyle(TOOLTIP_STYLE);
 	private final Random random = new Random();
 
 	public ItemXPTome()
@@ -114,7 +114,7 @@ public class ItemXPTome extends Item
 	{
 		tooltip.add(TOOLTIP_1);
 		tooltip.add(TOOLTIP_2);
-		tooltip.add(new StringTextComponent(String.format("%s/%s XP stored", getXPStored(stack), MAX_STORAGE)).setStyle(TOOLTIP_STYLE));
+		tooltip.add(new TranslationTextComponent("xpbook.tooltip.3", getXPStored(stack), MAX_STORAGE).setStyle(TOOLTIP_STYLE));
 	}
 
 	/**
