@@ -20,7 +20,7 @@ public class XPTome
 {
 	public static final String MODID = "xpbook";
 	public static final String NAME = "XP Tome";
-	public static final String VERSION = "v1.1.3";
+	public static final String VERSION = "v1.1.4";
 	public static final String MC_VERSION = "1.12.2";
 	@ObjectHolder(MODID + ":" + ItemXPTome.NAME)
 	public static final Item XP_BOOK = null;
