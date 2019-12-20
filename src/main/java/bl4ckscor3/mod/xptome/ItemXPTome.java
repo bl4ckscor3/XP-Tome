@@ -39,7 +39,7 @@ public class ItemXPTome extends Item
 	{
 		ItemStack stack = player.getHeldItem(hand);
 
-		if(player.isSneaking() && getXPStored(stack) != MAX_STORAGE)
+		if(player.func_225608_bj_() && getXPStored(stack) != MAX_STORAGE) //isSneaking
 		{
 			int playerXP = EnchantmentUtils.getPlayerXP(player);
 
@@ -55,7 +55,7 @@ public class ItemXPTome extends Item
 
 			return new ActionResult<>(ActionResultType.SUCCESS, stack);
 		}
-		else if(!player.isSneaking() && getXPStored(stack) != 0)
+		else if(!player.func_225608_bj_() && getXPStored(stack) != 0) //isSneaking
 		{
 			EnchantmentUtils.addPlayerXP(player, getXPStored(stack));
 			setStoredXP(stack, 0);
