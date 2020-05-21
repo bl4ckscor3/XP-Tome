@@ -74,12 +74,6 @@ public class ItemXPTome extends Item
 	}
 
 	@Override
-	public void onCreated(ItemStack stack, World world, PlayerEntity player)
-	{
-		stack.setDamage(MAX_STORAGE);
-	}
-
-	@Override
 	public boolean hasEffect(ItemStack stack)
 	{
 		return getXPStored(stack) > 0;
