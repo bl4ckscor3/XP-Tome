@@ -39,7 +39,7 @@ public class ItemXPTome extends Item
 	{
 		ItemStack stack = player.getHeldItem(hand);
 
-		if(player.func_225608_bj_() && getXPStored(stack) != MAX_STORAGE) //isSneaking
+		if(player.isCrouching() && getXPStored(stack) != MAX_STORAGE)
 		{
 			int playerXP = EnchantmentUtils.getPlayerXP(player);
 
@@ -55,7 +55,7 @@ public class ItemXPTome extends Item
 
 			return new ActionResult<>(ActionResultType.SUCCESS, stack);
 		}
-		else if(!player.func_225608_bj_() && getXPStored(stack) != 0) //isSneaking
+		else if(!player.isCrouching() && getXPStored(stack) != 0)
 		{
 			EnchantmentUtils.addPlayerXP(player, getXPStored(stack));
 			setStoredXP(stack, 0);
@@ -71,12 +71,6 @@ public class ItemXPTome extends Item
 		}
 
 		return new ActionResult<>(ActionResultType.PASS, stack);
-	}
-
-	@Override
-	public void onCreated(ItemStack stack, World world, PlayerEntity player)
-	{
-		stack.setDamage(MAX_STORAGE);
 	}
 
 	@Override
