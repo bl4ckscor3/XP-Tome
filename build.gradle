@@ -11,14 +11,14 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 
-version = '1.15.2-v1.1.5'
+version = '1.16.1-v1.1.5'
 group = 'bl4ckscor3.mod.xptome'
 archivesBaseName = 'xptome'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: 'snapshot', version: '20200515-1.15.1'
+    mappings channel: 'snapshot', version: '20200514-1.16'
 	
     runs {
         client {
@@ -26,7 +26,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                xptome {
+                xpbook {
                     source sourceSets.main
                 }
             }
@@ -37,7 +37,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                xptome {
+                xpbook {
                     source sourceSets.main
                 }
             }
@@ -45,9 +45,8 @@ minecraft {
     }
 }
 
-
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.15.2-31.2.0'
+    minecraft 'net.minecraftforge:forge:1.16.1-32.0.38'
 }
 
 jar {
