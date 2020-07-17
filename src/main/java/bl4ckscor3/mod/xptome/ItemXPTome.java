@@ -24,7 +24,7 @@ public class ItemXPTome extends Item
 {
 	public static final String NAME = "xp_book";
 	public static final int MAX_STORAGE = 1395; //first 30 levels
-	private static final Style TOOLTIP_STYLE = Style.field_240709_b_.func_240712_a_(TextFormatting.GRAY);
+	private static final Style TOOLTIP_STYLE = Style.EMPTY.applyFormatting(TextFormatting.GRAY);
 	private static final ITextComponent TOOLTIP_1 = new TranslationTextComponent("xpbook.tooltip.1").func_230530_a_(TOOLTIP_STYLE);
 	private static final ITextComponent TOOLTIP_2 = new TranslationTextComponent("xpbook.tooltip.2").func_230530_a_(TOOLTIP_STYLE);
 	private final Random random = new Random();
