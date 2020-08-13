@@ -25,8 +25,8 @@ public class ItemXPTome extends Item
 	public static final String NAME = "xp_book";
 	public static final int MAX_STORAGE = 1395; //first 30 levels
 	private static final Style TOOLTIP_STYLE = Style.EMPTY.applyFormatting(TextFormatting.GRAY);
-	private static final ITextComponent TOOLTIP_1 = new TranslationTextComponent("xpbook.tooltip.1").func_230530_a_(TOOLTIP_STYLE);
-	private static final ITextComponent TOOLTIP_2 = new TranslationTextComponent("xpbook.tooltip.2").func_230530_a_(TOOLTIP_STYLE);
+	private static final ITextComponent TOOLTIP_1 = new TranslationTextComponent("xpbook.tooltip.1").setStyle(TOOLTIP_STYLE);
+	private static final ITextComponent TOOLTIP_2 = new TranslationTextComponent("xpbook.tooltip.2").setStyle(TOOLTIP_STYLE);
 	private final Random random = new Random();
 
 	public ItemXPTome()
@@ -51,7 +51,7 @@ public class ItemXPTome extends Item
 			EnchantmentUtils.addPlayerXP(player, -actuallyStored);
 
 			if(!world.isRemote)
-				world.playSound(null, player.func_233580_cy_(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (random.nextFloat() - random.nextFloat()) * 0.35F + 0.9F); //getPosition
+				world.playSound(null, player.getPosition(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (random.nextFloat() - random.nextFloat()) * 0.35F + 0.9F);
 
 			return new ActionResult<>(ActionResultType.SUCCESS, stack);
 		}
@@ -64,7 +64,7 @@ public class ItemXPTome extends Item
 			{
 				float pitchMultiplier = player.experienceLevel > 30 ? 1.0F : player.experienceLevel / 30.0F;
 
-				world.playSound(null, player.func_233580_cy_(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, pitchMultiplier * 0.75F, 1.0F); //getPosition
+				world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, pitchMultiplier * 0.75F, 1.0F);
 			}
 
 			return new ActionResult<>(ActionResultType.SUCCESS, stack);
@@ -108,7 +108,7 @@ public class ItemXPTome extends Item
 	{
 		tooltip.add(TOOLTIP_1);
 		tooltip.add(TOOLTIP_2);
-		tooltip.add(new TranslationTextComponent("xpbook.tooltip.3", getXPStored(stack), MAX_STORAGE).func_230530_a_(TOOLTIP_STYLE));
+		tooltip.add(new TranslationTextComponent("xpbook.tooltip.3", getXPStored(stack), MAX_STORAGE).setStyle(TOOLTIP_STYLE));
 	}
 
 	/**
