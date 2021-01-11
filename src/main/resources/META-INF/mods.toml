@@ -7,7 +7,7 @@ authors="bl4ckscor3"
 
 [[mods]] #mandatory
 modId="xpbook" #mandatory
-version="v1.1.6" #mandatory
+version="${version}" #mandatory
 displayName="XP Tome" #mandatory
 description='''Adds a book that can store a limited amount of XP.''' #mandatory
 
