@@ -9,7 +9,7 @@ authors="bl4ckscor3"
 modId="xpbook" #mandatory
 version="${version}" #mandatory
 displayName="XP Tome" #mandatory
-description='''Adds a book that can store a limited amount of XP.''' #mandatory
+description='''Adds a book that can store a configurable amount of XP.''' #mandatory
 
 [[dependencies.xpbook]]
     modId="forge"
