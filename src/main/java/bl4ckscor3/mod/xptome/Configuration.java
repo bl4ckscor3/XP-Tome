@@ -3,6 +3,7 @@ package bl4ckscor3.mod.xptome;
 import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 
@@ -13,6 +14,8 @@ public class Configuration
 
 	public final IntValue maxXP;
 	public final DoubleValue retrievalPercentage;
+	public final BooleanValue retriveUntilNextLevel;
+	public final BooleanValue storeUntilPreviousLevel;
 
 	static
 	{
@@ -31,5 +34,11 @@ public class Configuration
 				.comment("The percentage of XP that the book will give back, as a sort of cost of using it.",
 						"Example: If this config value is set to 0.75, and an XP Tome has 100 XP stored, attempting to retrieve these 100 XP will give back 75 XP.")
 				.defineInRange("retrieval_percentage", 1.0D, 0.0D, 1.0D);
+		retriveUntilNextLevel = builder
+				.comment("Setting this to true will remove only as much XP from the book at a time as is needed for the player to reach their next level.")
+				.define("retrieve_until_next_level", false);
+		storeUntilPreviousLevel = builder
+				.comment("Setting this to true will store only as much XP from the player's XP bar until reaching the previous level, meaning only one level at maximum will be added to the book's storage at a time.")
+				.define("store_until_previous_level", false);
 	}
 }
