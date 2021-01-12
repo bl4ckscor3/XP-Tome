@@ -56,7 +56,7 @@ public class XPTomeItem extends Item
 		}
 		else if(!player.isSneaking() && storedXP > 0)
 		{
-			EnchantmentUtils.addPlayerXP(player, storedXP);
+			EnchantmentUtils.addPlayerXP(player, (int)Math.ceil(storedXP * Configuration.CONFIG.retrievalPercentage.get()));
 			setStoredXP(stack, 0);
 
 			if(!world.isRemote)
