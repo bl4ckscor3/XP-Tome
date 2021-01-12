@@ -39,12 +39,24 @@ public class XPTomeItem extends Item
 
 		if(player.isSneaking() && storedXP < Configuration.CONFIG.maxXP.get())
 		{
-			int playerXP = EnchantmentUtils.getPlayerXP(player);
+			int xpToStore = 0;
 
-			if(playerXP == 0)
+			if(Configuration.CONFIG.storeUntilPreviousLevel.get())
+			{
+				int xpForCurrentLevel = EnchantmentUtils.getExperienceForLevel(player.experienceLevel);
+
+				xpToStore = EnchantmentUtils.getPlayerXP(player) - xpForCurrentLevel;
+
+				if(xpToStore == 0 && player.experienceLevel > 0) //player has exactly x levels (xp bar looks empty)
+					xpToStore = xpForCurrentLevel - EnchantmentUtils.getExperienceForLevel(player.experienceLevel - 1);
+			}
+			else
+				xpToStore = EnchantmentUtils.getPlayerXP(player);
+
+			if(xpToStore == 0)
 				return new ActionResult<>(ActionResultType.PASS, stack);
 
-			int actuallyStored = addXP(stack, playerXP); //store as much of the player's XP as possible
+			int actuallyStored = addXP(stack, xpToStore); //store as much XP as possible
 
 			if(actuallyStored > 0)
 				EnchantmentUtils.addPlayerXP(player, -actuallyStored);
