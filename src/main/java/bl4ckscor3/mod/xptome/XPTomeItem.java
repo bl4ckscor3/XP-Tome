@@ -22,7 +22,6 @@ import openmods.utils.EnchantmentUtils;
 
 public class XPTomeItem extends Item
 {
-	public static final int MAX_STORAGE = 1395; //first 30 levels
 	public static final Style TOOLTIP_STYLE = new Style().setColor(TextFormatting.GRAY);
 	private static final ITextComponent TOOLTIP_1 = new TranslationTextComponent("xpbook.tooltip.1").setStyle(TOOLTIP_STYLE);
 	private static final ITextComponent TOOLTIP_2 = new TranslationTextComponent("xpbook.tooltip.2").setStyle(TOOLTIP_STYLE);
@@ -38,7 +37,7 @@ public class XPTomeItem extends Item
 		ItemStack stack = player.getHeldItem(hand);
 		int storedXP = getXPStored(stack);
 
-		if(player.isSneaking() && storedXP < MAX_STORAGE)
+		if(player.isSneaking() && storedXP < Configuration.CONFIG.maxXP.get())
 		{
 			int playerXP = EnchantmentUtils.getPlayerXP(player);
 
@@ -85,7 +84,7 @@ public class XPTomeItem extends Item
 		//returning 1 results in an empty bar. returning 0 results in a full bar
 		//if there is more XP stored than MAX_STORAGE, the value will be negative, resulting in a longer than usual durability bar
 		//having a lower bound of 0 ensures that the bar does not exceed its normal length
-		return Math.max(0.0D, 1.0D - ((double)getXPStored(stack) / (double)MAX_STORAGE));
+		return Math.max(0.0D, 1.0D - ((double)getXPStored(stack) / (double)Configuration.CONFIG.maxXP.get()));
 	}
 
 	@Override
@@ -130,7 +129,7 @@ public class XPTomeItem extends Item
 	{
 		tooltip.add(TOOLTIP_1);
 		tooltip.add(TOOLTIP_2);
-		tooltip.add(new TranslationTextComponent("xpbook.tooltip.3", getXPStored(stack), MAX_STORAGE).setStyle(TOOLTIP_STYLE));
+		tooltip.add(new TranslationTextComponent("xpbook.tooltip.3", getXPStored(stack), Configuration.CONFIG.maxXP.get()).setStyle(TOOLTIP_STYLE));
 	}
 
 	/**
@@ -145,19 +144,20 @@ public class XPTomeItem extends Item
 			return 0;
 
 		int stored = getXPStored(stack);
+		int maxStorage = Configuration.CONFIG.maxXP.get();
 
-		if(stored >= MAX_STORAGE) //can't add XP to a full book
+		if(stored >= maxStorage) //can't add XP to a full book
 			return 0;
 
-		if(stored + amount <= MAX_STORAGE)
+		if(stored + amount <= maxStorage)
 		{
 			setStoredXP(stack, stored + amount);
 			return amount;
 		}
 		else
 		{
-			setStoredXP(stack, MAX_STORAGE);
-			return MAX_STORAGE - stored;
+			setStoredXP(stack, maxStorage);
+			return maxStorage - stored;
 		}
 	}
 
