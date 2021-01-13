@@ -19,7 +19,7 @@ public class XPTome
 {
 	public static final String MODID = "xpbook";
 	public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, MODID);
-	/** @deprecated This is kept for legacy reasons, use the field below. */
+	/** @deprecated This is kept for legacy reasons. Use the field below this one. */
 	@Deprecated
 	public static final RegistryObject<Item> XP_BOOK = ITEMS.register("xp_book", () -> new OldXPTomeItem(new Item.Properties().maxStackSize(1)));
 	public static final RegistryObject<Item> XP_TOME = ITEMS.register("xp_tome", () -> new XPTomeItem(new Item.Properties().maxStackSize(1).group(ItemGroup.MISC)));
