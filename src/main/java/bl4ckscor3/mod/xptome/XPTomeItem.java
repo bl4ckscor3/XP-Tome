@@ -93,7 +93,7 @@ public class XPTomeItem extends Item
 			{
 				float pitchMultiplier = player.experienceLevel > 30 ? 1.0F : player.experienceLevel / 30.0F;
 
-				world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.1F, pitchMultiplier * 0.75F);
+				world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, pitchMultiplier * 0.75F, 1.0F);
 			}
 
 			return new ActionResult<>(ActionResultType.SUCCESS, stack);
