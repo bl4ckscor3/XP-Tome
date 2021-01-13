@@ -32,7 +32,8 @@ public class Configuration
 				.defineInRange("max_xp", 1395, 1, Integer.MAX_VALUE);
 		retrievalPercentage = builder
 				.comment("The percentage of XP that the book will give back, as a sort of cost of using it.",
-						"Example: If this config value is set to 0.75, and an XP Tome has 100 XP stored, attempting to retrieve these 100 XP will give back 75 XP.")
+						"Example: If this config value is set to 0.75, and an XP Tome has 100 XP stored, attempting to retrieve these 100 XP will give back 75 XP.",
+						"Note: This will not be 100% accurate, as Minecraft's XP does not use decimals.")
 				.defineInRange("retrieval_percentage", 1.0D, 0.0D, 1.0D);
 		retriveUntilNextLevel = builder
 				.comment("Setting this to true will remove only as much XP from the book at a time as is needed for the player to reach their next level.")
