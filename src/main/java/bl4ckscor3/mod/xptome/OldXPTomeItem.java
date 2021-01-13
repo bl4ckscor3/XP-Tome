@@ -19,7 +19,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
- *	@deprecated This is kept for legacy reasons, use {@link XPTomeItem}
+ *	@deprecated This is kept for legacy reasons. Use {@link XPTomeItem}
  */
 @Deprecated
 public class OldXPTomeItem extends Item
@@ -41,7 +41,7 @@ public class OldXPTomeItem extends Item
 		tag.putInt("xp", xp);
 		newStack.setTag(tag);
 
-		if(world.isRemote)
+		if(world.isRemote) //only play the sound clientside
 			player.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, 1.0F);
 
 		return ActionResult.resultConsume(newStack);
