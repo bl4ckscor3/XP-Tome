@@ -47,7 +47,7 @@ public class XPTomeItem extends Item
 
 				xpToStore = EnchantmentUtils.getPlayerXP(player) - xpForCurrentLevel;
 
-				if(xpToStore == 0 && player.experienceLevel > 0) //player has exactly x levels (xp bar looks empty)
+				if(xpToStore == 0 && player.experienceLevel > 0) //player has exactly x > 0 levels (xp bar looks empty)
 					xpToStore = xpForCurrentLevel - EnchantmentUtils.getExperienceForLevel(player.experienceLevel - 1);
 			}
 			else
@@ -68,8 +68,25 @@ public class XPTomeItem extends Item
 		}
 		else if(!player.isSneaking() && storedXP > 0)
 		{
-			EnchantmentUtils.addPlayerXP(player, (int)Math.ceil(storedXP * Configuration.CONFIG.retrievalPercentage.get()));
-			setStoredXP(stack, 0);
+			if(Configuration.CONFIG.retriveUntilNextLevel.get())
+			{
+				int xpForPlayer = EnchantmentUtils.getExperienceForLevel(player.experienceLevel + 1) - EnchantmentUtils.getPlayerXP(player);
+				//if retrievalPercentage is 75%, these 75% should be given to the player, but an extra 25% needs to be removed from the tome
+				//using floor to be generous towards the player, removing slightly less xp than should be removed (can't be 100% accuarte, because XP is saved as an int)
+				int xpToRetrieve = (int)Math.floor(xpForPlayer / Configuration.CONFIG.retrievalPercentage.get());
+				int actuallyRemoved = removeXP(stack, xpToRetrieve);
+
+				if(actuallyRemoved < xpForPlayer)
+					xpForPlayer = (int)Math.floor(actuallyRemoved * Configuration.CONFIG.retrievalPercentage.get());
+
+				EnchantmentUtils.addPlayerXP(player, xpForPlayer);
+			}
+			else
+			{
+				//using ceil to be generous towards the player, adding slightly more xp than they should get (can't be 100% accuarte, because XP is saved as an int)
+				EnchantmentUtils.addPlayerXP(player, (int)Math.ceil(storedXP * Configuration.CONFIG.retrievalPercentage.get()));
+				setStoredXP(stack, 0);
+			}
 
 			if(!world.isRemote)
 			{
