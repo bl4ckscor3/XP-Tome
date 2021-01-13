@@ -16,7 +16,7 @@ import net.minecraftforge.registries.ObjectHolder;
 public class XPTome
 {
 	public static final String MODID = "xpbook";
-	@ObjectHolder(MODID + ":" + ItemXPTome.NAME)
+	@ObjectHolder(MODID + ":" + OldXPTomeItem.NAME)
 	public static final Item XP_BOOK = null;
 
 	public XPTome()
@@ -27,7 +27,7 @@ public class XPTome
 	@SubscribeEvent
 	public static void onRegisterItems(RegistryEvent.Register<Item> event)
 	{
-		event.getRegistry().register(new ItemXPTome().setRegistryName(new ResourceLocation(MODID, ItemXPTome.NAME)));
+		event.getRegistry().register(new OldXPTomeItem().setRegistryName(new ResourceLocation(MODID, OldXPTomeItem.NAME)));
 	}
 
 	@SubscribeEvent
