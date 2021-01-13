@@ -1,39 +1,38 @@
 package bl4ckscor3.mod.xptome;
 
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraft.item.ItemGroup;
 import net.minecraftforge.event.AnvilUpdateEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod(XPTome.MODID)
-@EventBusSubscriber(modid=XPTome.MODID, bus=Bus.MOD)
+@EventBusSubscriber(modid=XPTome.MODID)
 public class XPTome
 {
 	public static final String MODID = "xpbook";
-	@ObjectHolder(MODID + ":" + OldXPTomeItem.NAME)
-	public static final Item XP_BOOK = null;
+	public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, MODID);
+	/** @deprecated This is kept for legacy reasons, use the field below. */
+	@Deprecated
+	public static final RegistryObject<Item> XP_BOOK = ITEMS.register("xp_book", () -> new OldXPTomeItem(new Item.Properties().maxStackSize(1)));
+	public static final RegistryObject<Item> XP_TOME = ITEMS.register("xp_tome", () -> new XPTomeItem(new Item.Properties().maxStackSize(1).group(ItemGroup.MISC)));
 
 	public XPTome()
 	{
-		MinecraftForge.EVENT_BUS.addListener(this::onAnvilUpdate);
+		ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 	}
 
 	@SubscribeEvent
-	public static void onRegisterItems(RegistryEvent.Register<Item> event)
+	public static void onAnvilUpdate(AnvilUpdateEvent event)
 	{
-		event.getRegistry().register(new OldXPTomeItem().setRegistryName(new ResourceLocation(MODID, OldXPTomeItem.NAME)));
-	}
-
-	@SubscribeEvent
-	public void onAnvilUpdate(AnvilUpdateEvent event)
-	{
-		if(event.getLeft().getItem() == XP_BOOK || event.getRight().getItem() == XP_BOOK)
+		if(event.getLeft().getItem() == XP_BOOK.get() || event.getRight().getItem() == XP_BOOK.get())
+			event.setCanceled(true);
+		else if(event.getLeft().getItem() == XP_TOME.get() || event.getRight().getItem() == XP_TOME.get())
 			event.setCanceled(true);
 	}
 }
