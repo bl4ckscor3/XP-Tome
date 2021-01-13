@@ -15,10 +15,10 @@
   },
   "result": {
     "type": "forge:nbt",
-    "item": "xpbook:xp_book",
+    "item": "xpbook:xp_tome",
     "count": 1,
     "nbt": {
-      "Damage": 1395
+      "xp": 0
     }
   }
 }
