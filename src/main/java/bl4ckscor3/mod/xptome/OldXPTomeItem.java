@@ -20,7 +20,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import openmods.utils.EnchantmentUtils;
 
-public class ItemXPTome extends Item
+public class OldXPTomeItem extends Item
 {
 	public static final String NAME = "xp_book";
 	public static final int MAX_STORAGE = 1395; //first 30 levels
@@ -29,7 +29,7 @@ public class ItemXPTome extends Item
 	private static final ITextComponent TOOLTIP_2 = new TranslationTextComponent("xpbook.tooltip.2").setStyle(TOOLTIP_STYLE);
 	private final Random random = new Random();
 
-	public ItemXPTome()
+	public OldXPTomeItem()
 	{
 		super(new Item.Properties().maxDamage(MAX_STORAGE).group(ItemGroup.MISC));
 	}
