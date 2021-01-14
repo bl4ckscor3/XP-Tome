@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- *	@deprecated This is kept for legacy reasons, use {@link XPTomeItem}
+ *	@deprecated This is kept for legacy reasons. Use {@link XPTomeItem}
  */
 @Deprecated
 public class ItemOldXPTome extends Item
@@ -41,7 +41,7 @@ public class ItemOldXPTome extends Item
 		tag.setInteger("xp", xp);
 		newStack.setTagCompound(tag);
 
-		if(world.isRemote)
+		if(world.isRemote) //only play the sound clientside
 			player.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, 1.0F);
 
 		return new ActionResult<>(EnumActionResult.SUCCESS, newStack);

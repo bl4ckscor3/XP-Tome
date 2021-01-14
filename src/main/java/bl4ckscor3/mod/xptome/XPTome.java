@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 public class XPTome
 {
 	public static final String MODID = "xpbook";
-	/** @deprecated This is kept for legacy reasons, use the field below. */
+	/** @deprecated This is kept for legacy reasons. Use the field below this one. */
 	@Deprecated
 	@ObjectHolder(MODID + ":" + ItemOldXPTome.NAME)
 	public static final Item XP_BOOK = null;

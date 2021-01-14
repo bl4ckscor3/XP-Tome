@@ -70,10 +70,11 @@ public class ItemXPTome extends Item
 			{
 				int xpForPlayer = EnchantmentUtils.getExperienceForLevel(player.experienceLevel + 1) - EnchantmentUtils.getPlayerXP(player);
 				//if retrievalPercentage is 75%, these 75% should be given to the player, but an extra 25% needs to be removed from the tome
-				//using floor to be generous towards the player, removing slightly less xp than should be removed (can't be 100% accuarte, because XP is saved as an int)
+				//using floor to be generous towards the player, removing slightly less xp than should be removed (can't be 100% accurate, because XP is saved as an int)
 				int xpToRetrieve = (int)Math.floor(xpForPlayer / Configuration.retrievalPercentage);
 				int actuallyRemoved = removeXP(stack, xpToRetrieve);
 
+				//if the tome had less xp than the player should get, apply the XP loss to that value as well
 				if(actuallyRemoved < xpForPlayer)
 					xpForPlayer = (int)Math.floor(actuallyRemoved * Configuration.retrievalPercentage);
 
@@ -81,7 +82,7 @@ public class ItemXPTome extends Item
 			}
 			else
 			{
-				//using ceil to be generous towards the player, adding slightly more xp than they should get (can't be 100% accuarte, because XP is saved as an int)
+				//using ceil to be generous towards the player, adding slightly more xp than they should get (can't be 100% accurate, because XP is saved as an int)
 				EnchantmentUtils.addPlayerXP(player, (int)Math.ceil(storedXP * Configuration.retrievalPercentage));
 				setStoredXP(stack, 0);
 			}
