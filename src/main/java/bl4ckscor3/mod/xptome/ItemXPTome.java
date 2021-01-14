@@ -22,7 +22,6 @@ import openmods.utils.EnchantmentUtils;
 public class ItemXPTome extends Item
 {
 	public static final String NAME = "xp_tome";
-	public static final int MAX_STORAGE = 1395; //first 30 levels
 
 	public ItemXPTome()
 	{
@@ -36,7 +35,7 @@ public class ItemXPTome extends Item
 		ItemStack stack = player.getHeldItem(hand);
 		int storedXP = getXPStored(stack);
 
-		if(player.isSneaking() && storedXP < MAX_STORAGE)
+		if(player.isSneaking() && storedXP < Configuration.maxXP)
 		{
 			int playerXP = EnchantmentUtils.getPlayerXP(player);
 
@@ -83,7 +82,7 @@ public class ItemXPTome extends Item
 		//returning 1 results in an empty bar. returning 0 results in a full bar
 		//if there is more XP stored than MAX_STORAGE, the value will be negative, resulting in a longer than usual durability bar
 		//having a lower bound of 0 ensures that the bar does not exceed its normal length
-		return Math.max(0.0D, 1.0D - ((double)getXPStored(stack) / (double)MAX_STORAGE));
+		return Math.max(0.0D, 1.0D - ((double)getXPStored(stack) / (double)Configuration.maxXP));
 	}
 
 	@Override
@@ -128,7 +127,7 @@ public class ItemXPTome extends Item
 	{
 		tooltip.add(I18n.format("xpbook.tooltip.1"));
 		tooltip.add(I18n.format("xpbook.tooltip.2"));
-		tooltip.add(I18n.format("xpbook.tooltip.3", getXPStored(stack), MAX_STORAGE));
+		tooltip.add(I18n.format("xpbook.tooltip.3", getXPStored(stack), Configuration.maxXP));
 	}
 
 	/**
@@ -143,19 +142,20 @@ public class ItemXPTome extends Item
 			return 0;
 
 		int stored = getXPStored(stack);
+		int maxStorage = Configuration.maxXP;
 
-		if(stored >= MAX_STORAGE) //can't add XP to a full book
+		if(stored >= maxStorage) //can't add XP to a full book
 			return 0;
 
-		if(stored + amount <= MAX_STORAGE)
+		if(stored + amount <= maxStorage)
 		{
 			setStoredXP(stack, stored + amount);
 			return amount;
 		}
 		else
 		{
-			setStoredXP(stack, MAX_STORAGE);
-			return MAX_STORAGE - stored;
+			setStoredXP(stack, maxStorage);
+			return maxStorage - stored;
 		}
 	}
 

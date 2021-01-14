@@ -2,8 +2,11 @@ package bl4ckscor3.mod.xptome;
 
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -35,5 +38,12 @@ public class XPTome
 			event.setCanceled(true);
 		else if(event.getLeft().getItem() == XP_TOME || event.getRight().getItem() == XP_TOME)
 			event.setCanceled(true);
+	}
+
+	@SubscribeEvent
+	public static void onConfigChanged(OnConfigChangedEvent event)
+	{
+		if(event.getModID().equals(MODID))
+			ConfigManager.sync(MODID, Config.Type.INSTANCE);
 	}
 }
