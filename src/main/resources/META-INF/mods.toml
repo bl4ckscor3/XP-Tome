@@ -1,15 +1,14 @@
 modLoader="javafml" #mandatory
 loaderVersion="[33,)" #mandatory
-license="GNU GPL v3.0 https://github.com/bl4ckscor3/XP-Tome/blob/1.16/LICENSE"
-issueTrackerURL="https://github.com/bl4ckscor3/XP-Tome/issues"
-displayURL="http://minecraft.curseforge.com/projects/xp-tome"
-authors="bl4ckscor3"
 
 [[mods]] #mandatory
-modId="xpbook" #mandatory
-version="${version}" #mandatory
-displayName="XP Tome" #mandatory
-description='''Adds a book that can store a configurable amount of XP.''' #mandatory
+	modId="xpbook" #mandatory
+	version="${version}" #mandatory
+	displayName="XP Tome" #mandatory
+	description='''Adds a book that can store a configurable amount of XP.''' #mandatory
+	issueTrackerURL="https://github.com/bl4ckscor3/XP-Tome/issues"
+	displayURL="http://minecraft.curseforge.com/projects/xp-tome"
+	authors="bl4ckscor3"
 
 [[dependencies.xpbook]]
     modId="forge"
