@@ -27,7 +27,7 @@ public class XPTome
 	public XPTome()
 	{
 		ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
-		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Configuration.CONFIG_SPEC);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Configuration.CONFIG_SPEC, "xptome-server.toml");
 	}
 
 	@SubscribeEvent
