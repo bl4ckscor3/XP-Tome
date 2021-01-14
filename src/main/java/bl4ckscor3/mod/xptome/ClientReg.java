@@ -15,5 +15,6 @@ public class ClientReg
 	public static void onModelRegistry(ModelRegistryEvent event)
 	{
 		ModelLoader.setCustomModelResourceLocation(XPTome.XP_BOOK, 0, new ModelResourceLocation(new ResourceLocation(XPTome.MODID, ItemOldXPTome.NAME), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(XPTome.XP_TOME, 0, new ModelResourceLocation(new ResourceLocation(XPTome.MODID, ItemXPTome.NAME), "inventory"));
 	}
 }

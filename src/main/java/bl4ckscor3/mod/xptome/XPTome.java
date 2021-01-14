@@ -14,19 +14,26 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 public class XPTome
 {
 	public static final String MODID = "xpbook";
+	/** @deprecated This is kept for legacy reasons, use the field below. */
+	@Deprecated
 	@ObjectHolder(MODID + ":" + ItemOldXPTome.NAME)
 	public static final Item XP_BOOK = null;
+	@ObjectHolder(MODID + ":" + ItemXPTome.NAME)
+	public static final Item XP_TOME = null;
 
 	@SubscribeEvent
 	public static void onRegisterItems(RegistryEvent.Register<Item> event)
 	{
 		event.getRegistry().register(new ItemOldXPTome().setRegistryName(new ResourceLocation(MODID, ItemOldXPTome.NAME)).setTranslationKey(MODID + ":" + ItemOldXPTome.NAME));
+		event.getRegistry().register(new ItemXPTome().setRegistryName(new ResourceLocation(MODID, ItemXPTome.NAME)).setTranslationKey(MODID + ":" + ItemXPTome.NAME));
 	}
 
 	@SubscribeEvent
 	public static void onAnvilUpdate(AnvilUpdateEvent event)
 	{
 		if(event.getLeft().getItem() == XP_BOOK || event.getRight().getItem() == XP_BOOK)
+			event.setCanceled(true);
+		else if(event.getLeft().getItem() == XP_TOME || event.getRight().getItem() == XP_TOME)
 			event.setCanceled(true);
 	}
 }

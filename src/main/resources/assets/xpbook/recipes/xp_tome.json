@@ -14,8 +14,11 @@
     }
   },
   "result": {
-    "item": "xpbook:xp_book",
-    "data": 1395,
-    "count": 1
+    "type": "minecract:item_nbt",
+    "item": "xpbook:xp_tome",
+    "count": 1,
+    "nbt": {
+      "xp": 0
+    }
   }
 }
