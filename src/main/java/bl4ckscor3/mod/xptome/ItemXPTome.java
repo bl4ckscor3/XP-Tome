@@ -33,7 +33,7 @@ public class ItemXPTome extends Item
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
 	{
 		ItemStack stack = player.getHeldItem(hand);
-		int storedXP = getXPStored(stack);
+		int storedXP = getStoredXP(stack);
 
 		if(player.isSneaking() && storedXP < Configuration.maxXP)
 		{
@@ -112,13 +112,13 @@ public class ItemXPTome extends Item
 		//returning 1 results in an empty bar. returning 0 results in a full bar
 		//if there is more XP stored than MAX_STORAGE, the value will be negative, resulting in a longer than usual durability bar
 		//having a lower bound of 0 ensures that the bar does not exceed its normal length
-		return Math.max(0.0D, 1.0D - ((double)getXPStored(stack) / (double)Configuration.maxXP));
+		return Math.max(0.0D, 1.0D - ((double)getStoredXP(stack) / (double)Configuration.maxXP));
 	}
 
 	@Override
 	public boolean hasEffect(ItemStack stack)
 	{
-		return getXPStored(stack) > 0;
+		return getStoredXP(stack) > 0;
 	}
 
 	@Override
@@ -157,7 +157,7 @@ public class ItemXPTome extends Item
 	{
 		tooltip.add(I18n.format("xpbook.tooltip.1"));
 		tooltip.add(I18n.format("xpbook.tooltip.2"));
-		tooltip.add(I18n.format("xpbook.tooltip.3", getXPStored(stack), Configuration.maxXP));
+		tooltip.add(I18n.format("xpbook.tooltip.3", getStoredXP(stack), Configuration.maxXP));
 	}
 
 	/**
@@ -171,7 +171,7 @@ public class ItemXPTome extends Item
 		if(amount <= 0) //can't add a negative amount of XP
 			return 0;
 
-		int stored = getXPStored(stack);
+		int stored = getStoredXP(stack);
 		int maxStorage = Configuration.maxXP;
 
 		if(stored >= maxStorage) //can't add XP to a full book
@@ -200,7 +200,7 @@ public class ItemXPTome extends Item
 		if(amount <= 0) //can't remove a negative amount of XP
 			return 0;
 
-		int stored = getXPStored(stack);
+		int stored = getStoredXP(stack);
 
 		if(stored <= 0) //can't remove XP from an empty book
 			return 0;
@@ -232,7 +232,7 @@ public class ItemXPTome extends Item
 	 * @param stack The stack to get the amount of stored XP from
 	 * @return The amount of stored XP in the stack
 	 */
-	public int getXPStored(ItemStack stack)
+	public int getStoredXP(ItemStack stack)
 	{
 		return getOrCreateTag(stack).getInteger("xp");
 	}
