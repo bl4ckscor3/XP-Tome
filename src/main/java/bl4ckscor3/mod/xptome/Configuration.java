@@ -16,10 +16,14 @@ public class Configuration
 	@Name("retrieval_percentage")
 	@Comment({
 		"The percentage of XP that the book will give back, as a sort of cost of using it.",
-		"Example: If this config value is set to 0.75, and an XP Tome has 100 XP stored, attempting to retrieve these 100 XP will give back 75 XP."
+		"Example: If this config value is set to 0.75, and an XP Tome has 100 XP stored, attempting to retrieve these 100 XP will give back 75 XP.",
+		"Note: This will not be 100% accurate, as Minecraft's XP does not use decimals."
 	})
 	@RangeDouble(min=0.0D, max=1.0D)
 	public static double retrievalPercentage = 1.0D;
+	@Name("retrieve_until_next_level")
+	@Comment("Setting this to true will remove only as much XP from the book at a time as is needed for the player to reach their next level.")
+	public static boolean retriveUntilNextLevel = false;
 	@Name("store_until_previous_level")
 	@Comment("Setting this to true will store only as much XP from the player's XP bar until reaching the previous level, meaning only one level at maximum will be added to the book's storage at a time.")
 	public static boolean storeUntilPreviousLevel = false;

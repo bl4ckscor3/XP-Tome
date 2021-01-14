@@ -66,12 +66,6 @@ public class EnchantmentUtils {
 		return 1395 + sum(level - 30, 112, 9);
 	}
 
-	public static int getXpToNextLevel(int level) {
-		int levelXP = EnchantmentUtils.getLevelForExperience(level);
-		int nextXP = EnchantmentUtils.getExperienceForLevel(level + 1);
-		return nextXP - levelXP;
-	}
-
 	public static int getLevelForExperience(int targetXp) {
 		int level = 0;
 		while (true) {
