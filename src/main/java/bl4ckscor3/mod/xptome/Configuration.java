@@ -20,4 +20,7 @@ public class Configuration
 	})
 	@RangeDouble(min=0.0D, max=1.0D)
 	public static double retrievalPercentage = 1.0D;
+	@Name("store_until_previous_level")
+	@Comment("Setting this to true will store only as much XP from the player's XP bar until reaching the previous level, meaning only one level at maximum will be added to the book's storage at a time.")
+	public static boolean storeUntilPreviousLevel = false;
 }
