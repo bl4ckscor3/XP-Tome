@@ -17,13 +17,13 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import openmods.utils.EnchantmentUtils;
 
-public class ItemXPTome extends Item
+public class ItemOldXPTome extends Item
 {
 	public static final String NAME = "xp_book";
 	public static final int MAX_STORAGE = 1395; //first 30 levels
 	private final Random random = new Random();
 
-	public ItemXPTome()
+	public ItemOldXPTome()
 	{
 		setCreativeTab(CreativeTabs.MISC);
 		setMaxDamage(MAX_STORAGE);

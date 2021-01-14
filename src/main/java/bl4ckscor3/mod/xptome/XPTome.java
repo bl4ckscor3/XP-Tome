@@ -14,13 +14,13 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 public class XPTome
 {
 	public static final String MODID = "xpbook";
-	@ObjectHolder(MODID + ":" + ItemXPTome.NAME)
+	@ObjectHolder(MODID + ":" + ItemOldXPTome.NAME)
 	public static final Item XP_BOOK = null;
 
 	@SubscribeEvent
 	public static void onRegisterItems(RegistryEvent.Register<Item> event)
 	{
-		event.getRegistry().register(new ItemXPTome().setRegistryName(new ResourceLocation(MODID, ItemXPTome.NAME)).setTranslationKey(MODID + ":" + ItemXPTome.NAME));
+		event.getRegistry().register(new ItemOldXPTome().setRegistryName(new ResourceLocation(MODID, ItemOldXPTome.NAME)).setTranslationKey(MODID + ":" + ItemOldXPTome.NAME));
 	}
 
 	@SubscribeEvent
