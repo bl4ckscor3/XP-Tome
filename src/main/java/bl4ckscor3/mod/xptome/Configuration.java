@@ -15,6 +15,7 @@ public class Configuration
 	public final IntValue maxXP;
 	public final DoubleValue retrievalPercentage;
 	public final BooleanValue retriveUntilNextLevel;
+	public final BooleanValue retrieveXPOrbs;
 	public final BooleanValue storeUntilPreviousLevel;
 
 	static
@@ -38,6 +39,9 @@ public class Configuration
 		retriveUntilNextLevel = builder
 				.comment("Setting this to true will remove only as much XP from the book at a time as is needed for the player to reach their next level.")
 				.define("retrieve_until_next_level", false);
+		retrieveXPOrbs = builder
+				.comment("Setting this to true will remove XP from the book in XP orb form. This is useful if you want to use XP from the book for tools enchanted with Mending.")
+				.define("retrieve_xp_orbs", false);
 		storeUntilPreviousLevel = builder
 				.comment("Setting this to true will store only as much XP from the player's XP bar until reaching the previous level, meaning only one level at maximum will be added to the book's storage at a time.")
 				.define("store_until_previous_level", false);
