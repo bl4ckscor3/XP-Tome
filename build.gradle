@@ -13,7 +13,7 @@ apply plugin: 'eclipse'
 
 version = 'v2.1'
 group = 'bl4ckscor3.mod.xptome'
-archivesBaseName = 'xptome-1.16.4'
+archivesBaseName = 'xptome-1.16.5'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
