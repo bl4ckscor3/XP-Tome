@@ -13,7 +13,7 @@ loaderVersion="[31,)" #mandatory
 [[dependencies.xpbook]]
     modId="forge"
     mandatory=true
-    versionRange="[31,)"
+    versionRange="[31.2.10,)"
     ordering="NONE"
     side="BOTH"
 
