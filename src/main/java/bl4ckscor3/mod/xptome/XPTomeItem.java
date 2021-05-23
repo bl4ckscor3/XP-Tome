@@ -19,6 +19,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import openmods.utils.EnchantmentUtils;
 
 public class XPTomeItem extends Item
@@ -60,7 +62,15 @@ public class XPTomeItem extends Item
 			int actuallyStored = addXP(stack, xpToStore); //store as much XP as possible
 
 			if(actuallyStored > 0)
+			{
+				int previousLevel = player.experienceLevel;
+
+				MinecraftForge.EVENT_BUS.post(new PlayerXpEvent.XpChange(player, -actuallyStored));
 				EnchantmentUtils.addPlayerXP(player, -actuallyStored); //negative value removes xp
+
+				if(previousLevel != player.experienceLevel)
+					MinecraftForge.EVENT_BUS.post(new PlayerXpEvent.LevelChange(player, player.experienceLevel));
+			}
 
 			if(!world.isRemote)
 				world.playSound(null, player.getPosition(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (world.rand.nextFloat() - world.rand.nextFloat()) * 0.35F + 0.9F);
@@ -81,12 +91,12 @@ public class XPTomeItem extends Item
 				if(actuallyRemoved < xpForPlayer)
 					xpForPlayer = (int)Math.floor(actuallyRemoved * Configuration.CONFIG.retrievalPercentage.get());
 
-				addOrSpawnXP(player, xpForPlayer);
+				addOrSpawnXPForPlayer(player, xpForPlayer);
 			}
 			else
 			{
 				//using ceil to be generous towards the player, adding slightly more xp than they should get (can't be 100% accurate, because XP is saved as an int)
-				addOrSpawnXP(player, (int)Math.ceil(storedXP * Configuration.CONFIG.retrievalPercentage.get()));
+				addOrSpawnXPForPlayer(player, (int)Math.ceil(storedXP * Configuration.CONFIG.retrievalPercentage.get()));
 				setStoredXP(stack, 0);
 			}
 
@@ -103,12 +113,23 @@ public class XPTomeItem extends Item
 		return new ActionResult<>(ActionResultType.PASS, stack);
 	}
 
-	private void addOrSpawnXP(PlayerEntity player, int amount)
+	private void addOrSpawnXPForPlayer(PlayerEntity player, int amount)
 	{
-		if(!player.world.isRemote && Configuration.CONFIG.retrieveXPOrbs.get())
-			player.world.addEntity(new ExperienceOrbEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), amount));
+		if(Configuration.CONFIG.retrieveXPOrbs.get())
+		{
+			if(!player.world.isRemote)
+				player.world.addEntity(new ExperienceOrbEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), amount));
+		}
 		else
+		{
+			int previousLevel = player.experienceLevel;
+
+			MinecraftForge.EVENT_BUS.post(new PlayerXpEvent.XpChange(player, amount));
 			EnchantmentUtils.addPlayerXP(player, amount);
+
+			if(previousLevel != player.experienceLevel)
+				MinecraftForge.EVENT_BUS.post(new PlayerXpEvent.LevelChange(player, player.experienceLevel));
+		}
 	}
 
 	@Override
