@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[33,)" #mandatory
+loaderVersion="[37,)" #mandatory
 license="GNU GPL v3.0 https://github.com/bl4ckscor3/XP-Tome/blob/1.16/LICENSE"
 
 [[mods]] #mandatory
@@ -14,13 +14,13 @@ license="GNU GPL v3.0 https://github.com/bl4ckscor3/XP-Tome/blob/1.16/LICENSE"
 [[dependencies.xpbook]]
     modId="forge"
     mandatory=true
-    versionRange="[33,)"
+    versionRange="[37,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.xpbook]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16,1.17)"
+    versionRange="[1.17,1.18)"
     ordering="NONE"
     side="BOTH"
