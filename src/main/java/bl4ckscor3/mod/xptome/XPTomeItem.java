@@ -25,7 +25,7 @@ import openmods.utils.EnchantmentUtils;
 
 public class XPTomeItem extends Item
 {
-	public static final Style TOOLTIP_STYLE = Style.EMPTY.applyFormatting(TextFormatting.GRAY);
+	public static final Style TOOLTIP_STYLE = Style.EMPTY.applyFormat(TextFormatting.GRAY);
 	private static final ITextComponent TOOLTIP_1 = new TranslationTextComponent("xpbook.tooltip.1").setStyle(TOOLTIP_STYLE);
 	private static final ITextComponent TOOLTIP_2 = new TranslationTextComponent("xpbook.tooltip.2").setStyle(TOOLTIP_STYLE);
 
@@ -35,12 +35,12 @@ public class XPTomeItem extends Item
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
+	public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
 	{
-		ItemStack stack = player.getHeldItem(hand);
+		ItemStack stack = player.getItemInHand(hand);
 		int storedXP = getStoredXP(stack);
 
-		if(player.isSneaking() && storedXP < Configuration.CONFIG.maxXP.get())
+		if(player.isShiftKeyDown() && storedXP < Configuration.CONFIG.maxXP.get())
 		{
 			int xpToStore = 0;
 
@@ -72,12 +72,12 @@ public class XPTomeItem extends Item
 					MinecraftForge.EVENT_BUS.post(new PlayerXpEvent.LevelChange(player, player.experienceLevel));
 			}
 
-			if(!world.isRemote)
-				world.playSound(null, player.getPosition(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (world.rand.nextFloat() - world.rand.nextFloat()) * 0.35F + 0.9F);
+			if(!world.isClientSide)
+				world.playSound(null, player.blockPosition(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (world.random.nextFloat() - world.random.nextFloat()) * 0.35F + 0.9F);
 
 			return new ActionResult<>(ActionResultType.SUCCESS, stack);
 		}
-		else if(!player.isSneaking() && storedXP > 0)
+		else if(!player.isShiftKeyDown() && storedXP > 0)
 		{
 			if(Configuration.CONFIG.retriveUntilNextLevel.get())
 			{
@@ -100,11 +100,11 @@ public class XPTomeItem extends Item
 				setStoredXP(stack, 0);
 			}
 
-			if(!world.isRemote && !Configuration.CONFIG.retrieveXPOrbs.get()) //picking up XP orbs creates a sound already, so only play a sound when XP is retrieved directly
+			if(!world.isClientSide && !Configuration.CONFIG.retrieveXPOrbs.get()) //picking up XP orbs creates a sound already, so only play a sound when XP is retrieved directly
 			{
 				float pitchMultiplier = player.experienceLevel > 30 ? 1.0F : player.experienceLevel / 30.0F;
 
-				world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, pitchMultiplier * 0.75F, 1.0F);
+				world.playSound(null, player.blockPosition(), SoundEvents.PLAYER_LEVELUP, SoundCategory.PLAYERS, pitchMultiplier * 0.75F, 1.0F);
 			}
 
 			return new ActionResult<>(ActionResultType.SUCCESS, stack);
@@ -117,8 +117,8 @@ public class XPTomeItem extends Item
 	{
 		if(Configuration.CONFIG.retrieveXPOrbs.get())
 		{
-			if(!player.world.isRemote)
-				player.world.addEntity(new ExperienceOrbEntity(player.world, player.getPosX(), player.getPosY(), player.getPosZ(), amount));
+			if(!player.level.isClientSide)
+				player.level.addFreshEntity(new ExperienceOrbEntity(player.level, player.getX(), player.getY(), player.getZ(), amount));
 		}
 		else
 		{
@@ -148,13 +148,13 @@ public class XPTomeItem extends Item
 	}
 
 	@Override
-	public boolean hasEffect(ItemStack stack)
+	public boolean isFoil(ItemStack stack)
 	{
 		return getStoredXP(stack) > 0;
 	}
 
 	@Override
-	public boolean isDamageable()
+	public boolean canBeDepleted()
 	{
 		return false;
 	}
@@ -172,7 +172,7 @@ public class XPTomeItem extends Item
 	}
 
 	@Override
-	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
+	public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair)
 	{
 		return false;
 	}
@@ -185,7 +185,7 @@ public class XPTomeItem extends Item
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void addInformation(ItemStack stack, World world, List<ITextComponent> tooltip, ITooltipFlag flag)
+	public void appendHoverText(ItemStack stack, World world, List<ITextComponent> tooltip, ITooltipFlag flag)
 	{
 		tooltip.add(TOOLTIP_1);
 		tooltip.add(TOOLTIP_2);
