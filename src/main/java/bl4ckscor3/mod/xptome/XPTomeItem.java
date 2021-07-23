@@ -2,21 +2,21 @@ package bl4ckscor3.mod.xptome;
 
 import java.util.List;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.item.ExperienceOrbEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -25,9 +25,9 @@ import openmods.utils.EnchantmentUtils;
 
 public class XPTomeItem extends Item
 {
-	public static final Style TOOLTIP_STYLE = Style.EMPTY.applyFormat(TextFormatting.GRAY);
-	private static final ITextComponent TOOLTIP_1 = new TranslationTextComponent("xpbook.tooltip.1").setStyle(TOOLTIP_STYLE);
-	private static final ITextComponent TOOLTIP_2 = new TranslationTextComponent("xpbook.tooltip.2").setStyle(TOOLTIP_STYLE);
+	public static final Style TOOLTIP_STYLE = Style.EMPTY.applyFormat(ChatFormatting.GRAY);
+	private static final Component TOOLTIP_1 = new TranslatableComponent("xpbook.tooltip.1").setStyle(TOOLTIP_STYLE);
+	private static final Component TOOLTIP_2 = new TranslatableComponent("xpbook.tooltip.2").setStyle(TOOLTIP_STYLE);
 
 	public XPTomeItem(Item.Properties properties)
 	{
@@ -35,7 +35,7 @@ public class XPTomeItem extends Item
 	}
 
 	@Override
-	public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand)
 	{
 		ItemStack stack = player.getItemInHand(hand);
 		int storedXP = getStoredXP(stack);
@@ -57,7 +57,7 @@ public class XPTomeItem extends Item
 				xpToStore = EnchantmentUtils.getPlayerXP(player);
 
 			if(xpToStore == 0)
-				return new ActionResult<>(ActionResultType.PASS, stack);
+				return new InteractionResultHolder<>(InteractionResult.PASS, stack);
 
 			int actuallyStored = addXP(stack, xpToStore); //store as much XP as possible
 
@@ -73,9 +73,9 @@ public class XPTomeItem extends Item
 			}
 
 			if(!world.isClientSide)
-				world.playSound(null, player.blockPosition(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 0.1F, (world.random.nextFloat() - world.random.nextFloat()) * 0.35F + 0.9F);
+				world.playSound(null, player.blockPosition(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.1F, (world.random.nextFloat() - world.random.nextFloat()) * 0.35F + 0.9F);
 
-			return new ActionResult<>(ActionResultType.SUCCESS, stack);
+			return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
 		}
 		else if(!player.isShiftKeyDown() && storedXP > 0)
 		{
@@ -104,21 +104,21 @@ public class XPTomeItem extends Item
 			{
 				float pitchMultiplier = player.experienceLevel > 30 ? 1.0F : player.experienceLevel / 30.0F;
 
-				world.playSound(null, player.blockPosition(), SoundEvents.PLAYER_LEVELUP, SoundCategory.PLAYERS, pitchMultiplier * 0.75F, 1.0F);
+				world.playSound(null, player.blockPosition(), SoundEvents.PLAYER_LEVELUP, SoundSource.PLAYERS, pitchMultiplier * 0.75F, 1.0F);
 			}
 
-			return new ActionResult<>(ActionResultType.SUCCESS, stack);
+			return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
 		}
 
-		return new ActionResult<>(ActionResultType.PASS, stack);
+		return new InteractionResultHolder<>(InteractionResult.PASS, stack);
 	}
 
-	private void addOrSpawnXPForPlayer(PlayerEntity player, int amount)
+	private void addOrSpawnXPForPlayer(Player player, int amount)
 	{
 		if(Configuration.CONFIG.retrieveXPOrbs.get())
 		{
 			if(!player.level.isClientSide)
-				player.level.addFreshEntity(new ExperienceOrbEntity(player.level, player.getX(), player.getY(), player.getZ(), amount));
+				player.level.addFreshEntity(new ExperienceOrb(player.level, player.getX(), player.getY(), player.getZ(), amount));
 		}
 		else
 		{
@@ -185,11 +185,11 @@ public class XPTomeItem extends Item
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, World world, List<ITextComponent> tooltip, ITooltipFlag flag)
+	public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag)
 	{
 		tooltip.add(TOOLTIP_1);
 		tooltip.add(TOOLTIP_2);
-		tooltip.add(new TranslationTextComponent("xpbook.tooltip.3", getStoredXP(stack), Configuration.CONFIG.maxXP.get()).setStyle(TOOLTIP_STYLE));
+		tooltip.add(new TranslatableComponent("xpbook.tooltip.3", getStoredXP(stack), Configuration.CONFIG.maxXP.get()).setStyle(TOOLTIP_STYLE));
 	}
 
 	/**

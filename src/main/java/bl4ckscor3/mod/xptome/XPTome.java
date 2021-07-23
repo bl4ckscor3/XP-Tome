@@ -1,7 +1,7 @@
 package bl4ckscor3.mod.xptome;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -22,7 +22,7 @@ public class XPTome
 	/** @deprecated This is kept for legacy reasons. Use the field below this one. */
 	@Deprecated
 	public static final RegistryObject<Item> XP_BOOK = ITEMS.register("xp_book", () -> new OldXPTomeItem(new Item.Properties().stacksTo(1)));
-	public static final RegistryObject<Item> XP_TOME = ITEMS.register("xp_tome", () -> new XPTomeItem(new Item.Properties().stacksTo(1).tab(ItemGroup.TAB_MISC)));
+	public static final RegistryObject<Item> XP_TOME = ITEMS.register("xp_tome", () -> new XPTomeItem(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC)));
 
 	public XPTome()
 	{

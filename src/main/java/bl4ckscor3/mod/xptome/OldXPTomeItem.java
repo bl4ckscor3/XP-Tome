@@ -3,18 +3,18 @@ package bl4ckscor3.mod.xptome;
 import java.util.List;
 import java.util.function.Consumer;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -32,11 +32,11 @@ public class OldXPTomeItem extends Item
 	}
 
 	@Override
-	public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand)
 	{
 		int xp = getXPStored(player.getItemInHand(hand));
 		ItemStack newStack = new ItemStack(XPTome.XP_TOME.get());
-		CompoundNBT tag = new CompoundNBT();
+		CompoundTag tag = new CompoundTag();
 
 		tag.putInt("xp", xp);
 		newStack.setTag(tag);
@@ -44,7 +44,7 @@ public class OldXPTomeItem extends Item
 		if(world.isClientSide) //only play the sound clientside
 			player.playSound(SoundEvents.CHICKEN_EGG, 1.0F, 1.0F);
 
-		return ActionResult.consume(newStack);
+		return InteractionResultHolder.consume(newStack);
 	}
 
 	@Override
@@ -88,9 +88,9 @@ public class OldXPTomeItem extends Item
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void appendHoverText(ItemStack stack, World world, List<ITextComponent> tooltip, ITooltipFlag flag)
+	public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag)
 	{
-		tooltip.add(new TranslationTextComponent("xpbook.tooltip.3", getXPStored(stack), MAX_STORAGE).setStyle(XPTomeItem.TOOLTIP_STYLE));
+		tooltip.add(new TranslatableComponent("xpbook.tooltip.3", getXPStored(stack), MAX_STORAGE).setStyle(XPTomeItem.TOOLTIP_STYLE));
 	}
 
 	/**
