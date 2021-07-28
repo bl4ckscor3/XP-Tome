@@ -2,6 +2,7 @@ package bl4ckscor3.mod.xptome;
 
 import java.util.List;
 
+import bl4ckscor3.mod.xptome.openmods.utils.EnchantmentUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -21,7 +22,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerXpEvent;
-import openmods.utils.EnchantmentUtils;
 
 public class XPTomeItem extends Item
 {
