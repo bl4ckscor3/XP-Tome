@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -133,18 +134,27 @@ public class XPTomeItem extends Item
 	}
 
 	@Override
-	public boolean showDurabilityBar(ItemStack stack)
+	public boolean isBarVisible(ItemStack stack)
 	{
 		return true;
 	}
 
 	@Override
-	public double getDurabilityForDisplay(ItemStack stack)
+	public int getBarWidth(ItemStack stack)
 	{
 		//returning 1 results in an empty bar. returning 0 results in a full bar
 		//if there is more XP stored than MAX_STORAGE, the value will be negative, resulting in a longer than usual durability bar
 		//having a lower bound of 0 ensures that the bar does not exceed its normal length
-		return Math.max(0.0D, 1.0D - ((double)getStoredXP(stack) / (double)Configuration.CONFIG.maxXP.get()));
+		return (int)Math.max(0.0D, MAX_BAR_WIDTH * ((double)getStoredXP(stack) / (double)Configuration.CONFIG.maxXP.get()));
+	}
+
+	@Override
+	public int getBarColor(ItemStack stack)
+	{
+		float maxXP = Configuration.CONFIG.maxXP.get();
+		float f = Math.max(0.0F, getStoredXP(stack) / maxXP);
+
+		return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
 	}
 
 	@Override
