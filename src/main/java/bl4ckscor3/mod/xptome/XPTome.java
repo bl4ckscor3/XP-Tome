@@ -33,9 +33,14 @@ public class XPTome
 	@SubscribeEvent
 	public static void onAnvilUpdate(AnvilUpdateEvent event)
 	{
-		if(event.getLeft().getItem() == XP_BOOK.get() || event.getRight().getItem() == XP_BOOK.get())
-			event.setCanceled(true);
-		else if(event.getLeft().getItem() == XP_TOME.get() || event.getRight().getItem() == XP_TOME.get())
-			event.setCanceled(true);
+		//prevention for a crash that should theoretically not happen, but apparently does
+		XP_BOOK.ifPresent(xpBook -> {
+			if(event.getLeft().getItem() == xpBook || event.getRight().getItem() == xpBook)
+				event.setCanceled(true);
+		});
+		XP_TOME.ifPresent(xpTome -> {
+			if(event.getLeft().getItem() == xpTome || event.getRight().getItem() == xpTome)
+				event.setCanceled(true);
+		});
 	}
 }
