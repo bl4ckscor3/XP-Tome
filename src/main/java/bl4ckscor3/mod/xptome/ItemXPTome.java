@@ -34,6 +34,9 @@ public class ItemXPTome extends Item
 	{
 		ItemStack stack = player.getHeldItem(hand);
 		int storedXP = getStoredXP(stack);
+		
+		if(stack.getCount() > 1) // Only process one tome at a time
+			return new ActionResult<>(EnumActionResult.PASS, stack);
 
 		if(player.isSneaking() && storedXP < Configuration.maxXP)
 		{
