@@ -40,6 +40,9 @@ public class XPTomeItem extends Item
 		ItemStack stack = player.getItemInHand(hand);
 		int storedXP = getStoredXP(stack);
 
+		if(stack.getCount() > 1)
+			return ActionResult.pass(stack);
+
 		if(player.isShiftKeyDown() && storedXP < Configuration.CONFIG.maxXP.get())
 		{
 			int xpToStore = 0;
