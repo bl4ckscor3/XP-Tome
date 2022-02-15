@@ -9,7 +9,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "v2.0"
+version = "v2.0.1"
 group = "bl4ckscor3.mod.xptome" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "xptome-1.12.2"
 
