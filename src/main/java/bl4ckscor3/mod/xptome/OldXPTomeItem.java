@@ -32,23 +32,23 @@ public class OldXPTomeItem extends Item
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
+	public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
 	{
-		int xp = getXPStored(player.getHeldItem(hand));
+		int xp = getXPStored(player.getItemInHand(hand));
 		ItemStack newStack = new ItemStack(XPTome.XP_TOME.get());
 		CompoundNBT tag = new CompoundNBT();
 
 		tag.putInt("xp", xp);
 		newStack.setTag(tag);
 
-		if(world.isRemote) //only play the sound clientside
-			player.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, 1.0F);
+		if(world.isClientSide) //only play the sound clientside
+			player.playSound(SoundEvents.CHICKEN_EGG, 1.0F, 1.0F);
 
-		return ActionResult.resultConsume(newStack);
+		return ActionResult.consume(newStack);
 	}
 
 	@Override
-	public boolean hasEffect(ItemStack stack)
+	public boolean isFoil(ItemStack stack)
 	{
 		return getXPStored(stack) > 0;
 	}
@@ -75,7 +75,7 @@ public class OldXPTomeItem extends Item
 	}
 
 	@Override
-	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
+	public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair)
 	{
 		return false;
 	}
@@ -88,7 +88,7 @@ public class OldXPTomeItem extends Item
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void addInformation(ItemStack stack, World world, List<ITextComponent> tooltip, ITooltipFlag flag)
+	public void appendHoverText(ItemStack stack, World world, List<ITextComponent> tooltip, ITooltipFlag flag)
 	{
 		tooltip.add(new TranslationTextComponent("xpbook.tooltip.3", getXPStored(stack), MAX_STORAGE).setStyle(XPTomeItem.TOOLTIP_STYLE));
 	}
@@ -100,6 +100,6 @@ public class OldXPTomeItem extends Item
 	 */
 	public int getXPStored(ItemStack stack)
 	{
-		return MAX_STORAGE - stack.getDamage(); //if the damage is 0, the book is full on xp
+		return MAX_STORAGE - stack.getDamageValue(); //if the damage is 0, the book is full on xp
 	}
 }
