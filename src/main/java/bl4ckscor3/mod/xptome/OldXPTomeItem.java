@@ -5,7 +5,6 @@ import java.util.function.Consumer;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -90,7 +89,7 @@ public class OldXPTomeItem extends Item
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag)
 	{
-		tooltip.add(new TranslatableComponent("xpbook.tooltip.3", getXPStored(stack), MAX_STORAGE).setStyle(XPTomeItem.TOOLTIP_STYLE));
+		tooltip.add(Component.translatable("xpbook.tooltip.3", getXPStored(stack), MAX_STORAGE).setStyle(XPTomeItem.TOOLTIP_STYLE));
 	}
 
 	/**

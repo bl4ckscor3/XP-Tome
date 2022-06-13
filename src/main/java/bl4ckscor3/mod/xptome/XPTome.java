@@ -35,11 +35,11 @@ public class XPTome
 	{
 		//prevention for a crash that should theoretically not happen, but apparently does
 		XP_BOOK.ifPresent(xpBook -> {
-			if(event.getLeft().getItem() == xpBook || event.getRight().getItem() == xpBook)
+			if(event.getLeft().is(xpBook) || event.getRight().is(xpBook))
 				event.setCanceled(true);
 		});
 		XP_TOME.ifPresent(xpTome -> {
-			if(event.getLeft().getItem() == xpTome || event.getRight().getItem() == xpTome)
+			if(event.getLeft().is(xpTome) || event.getRight().is(xpTome))
 				event.setCanceled(true);
 		});
 	}

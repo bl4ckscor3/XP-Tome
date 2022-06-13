@@ -6,7 +6,6 @@ import bl4ckscor3.mod.xptome.openmods.utils.EnchantmentUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -27,8 +26,8 @@ import net.minecraftforge.event.entity.player.PlayerXpEvent;
 public class XPTomeItem extends Item
 {
 	public static final Style TOOLTIP_STYLE = Style.EMPTY.applyFormat(ChatFormatting.GRAY);
-	private static final Component TOOLTIP_1 = new TranslatableComponent("xpbook.tooltip.1").setStyle(TOOLTIP_STYLE);
-	private static final Component TOOLTIP_2 = new TranslatableComponent("xpbook.tooltip.2").setStyle(TOOLTIP_STYLE);
+	private static final Component TOOLTIP_1 = Component.translatable("xpbook.tooltip.1").setStyle(TOOLTIP_STYLE);
+	private static final Component TOOLTIP_2 = Component.translatable("xpbook.tooltip.2").setStyle(TOOLTIP_STYLE);
 
 	public XPTomeItem(Item.Properties properties)
 	{
@@ -202,7 +201,7 @@ public class XPTomeItem extends Item
 	{
 		tooltip.add(TOOLTIP_1);
 		tooltip.add(TOOLTIP_2);
-		tooltip.add(new TranslatableComponent("xpbook.tooltip.3", getStoredXP(stack), Configuration.CONFIG.maxXP.get()).setStyle(TOOLTIP_STYLE));
+		tooltip.add(Component.translatable("xpbook.tooltip.3", getStoredXP(stack), Configuration.CONFIG.maxXP.get()).setStyle(TOOLTIP_STYLE));
 	}
 
 	/**
