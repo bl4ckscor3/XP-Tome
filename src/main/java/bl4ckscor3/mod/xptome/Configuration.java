@@ -7,27 +7,24 @@ import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 
-public class Configuration
-{
+public class Configuration {
 	public static final ForgeConfigSpec CONFIG_SPEC;
 	public static final Configuration CONFIG;
-
 	public final IntValue maxXP;
 	public final DoubleValue retrievalPercentage;
 	public final BooleanValue retriveUntilNextLevel;
 	public final BooleanValue retrieveXPOrbs;
 	public final BooleanValue storeUntilPreviousLevel;
 
-	static
-	{
-		Pair<Configuration,ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Configuration::new);
+	static {
+		Pair<Configuration, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Configuration::new);
 
 		CONFIG_SPEC = specPair.getRight();
 		CONFIG = specPair.getLeft();
 	}
 
-	Configuration(ForgeConfigSpec.Builder builder)
-	{
+	Configuration(ForgeConfigSpec.Builder builder) {
+		//@formatter:off
 		maxXP = builder
 				.comment("The maximum amount of XP points that the XP Tome can hold. The default value (1395) represents having 30 levels.")
 				.defineInRange("max_xp", 1395, 1, Integer.MAX_VALUE);
@@ -45,5 +42,6 @@ public class Configuration
 		storeUntilPreviousLevel = builder
 				.comment("Setting this to true will store only as much XP from the player's XP bar until reaching the previous level, meaning only one level at maximum will be added to the book's storage at a time.")
 				.define("store_until_previous_level", false);
+		//@formatter:on
 	}
 }
