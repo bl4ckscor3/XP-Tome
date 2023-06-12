@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.AnvilUpdateEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -49,10 +49,10 @@ public class XPTome {
 		});
 	}
 
-	public void onCreativeModeTabBuildContents(CreativeModeTabEvent.BuildContents event) {
-		if (event.getTab() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
+	public void onCreativeModeTabBuildContents(BuildCreativeModeTabContentsEvent event) {
+		if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
 			event.getEntries().putAfter(new ItemStack(Blocks.ENCHANTING_TABLE), new ItemStack(XP_TOME.get()), TabVisibility.PARENT_AND_SEARCH_TABS);
-		if (event.getTab() == CreativeModeTabs.INGREDIENTS)
+		if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
 			event.getEntries().putAfter(new ItemStack(Items.BOOK), new ItemStack(XP_TOME.get()), TabVisibility.PARENT_AND_SEARCH_TABS);
 	}
 }

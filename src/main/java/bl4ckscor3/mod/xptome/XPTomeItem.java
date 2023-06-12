@@ -107,8 +107,8 @@ public class XPTomeItem extends Item {
 
 	private void addOrSpawnXPForPlayer(Player player, int amount) {
 		if (Configuration.CONFIG.retrieveXPOrbs.get()) {
-			if (!player.level.isClientSide)
-				player.level.addFreshEntity(new ExperienceOrb(player.level, player.getX(), player.getY(), player.getZ(), amount));
+			if (!player.level().isClientSide)
+				player.level().addFreshEntity(new ExperienceOrb(player.level(), player.getX(), player.getY(), player.getZ(), amount));
 		}
 		else {
 			int previousLevel = player.experienceLevel;
