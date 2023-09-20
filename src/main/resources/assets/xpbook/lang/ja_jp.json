@@ -1,0 +1,7 @@
+{
+    "item.xpbook.xp_book": "旧仕様本:右クリックで変換します。",
+    "item.xpbook.xp_tome": "経験値の本",
+    "xpbook.tooltip.1": "スニーク+アイテム使用で可能な限り経験値を保管します。",
+    "xpbook.tooltip.2": "アイテム使用で全ての経験値を取り出します。",
+    "xpbook.tooltip.3": "%1$s/%2$s XP stored"
+}
