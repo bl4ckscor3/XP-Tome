@@ -18,8 +18,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerXpEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
 
 public class XPTomeItem extends Item {
 	public static final Style TOOLTIP_STYLE = Style.EMPTY.applyFormat(ChatFormatting.GRAY);
@@ -60,11 +60,11 @@ public class XPTomeItem extends Item {
 			if (actuallyStored > 0) {
 				int previousLevel = player.experienceLevel;
 
-				MinecraftForge.EVENT_BUS.post(new PlayerXpEvent.XpChange(player, -actuallyStored));
+				NeoForge.EVENT_BUS.post(new PlayerXpEvent.XpChange(player, -actuallyStored));
 				EnchantmentUtils.addPlayerXP(player, -actuallyStored); //negative value removes xp
 
 				if (previousLevel != player.experienceLevel)
-					MinecraftForge.EVENT_BUS.post(new PlayerXpEvent.LevelChange(player, player.experienceLevel));
+					NeoForge.EVENT_BUS.post(new PlayerXpEvent.LevelChange(player, player.experienceLevel));
 			}
 
 			if (!world.isClientSide)
@@ -113,11 +113,11 @@ public class XPTomeItem extends Item {
 		else {
 			int previousLevel = player.experienceLevel;
 
-			MinecraftForge.EVENT_BUS.post(new PlayerXpEvent.XpChange(player, amount));
+			NeoForge.EVENT_BUS.post(new PlayerXpEvent.XpChange(player, amount));
 			EnchantmentUtils.addPlayerXP(player, amount);
 
 			if (previousLevel != player.experienceLevel)
-				MinecraftForge.EVENT_BUS.post(new PlayerXpEvent.LevelChange(player, player.experienceLevel));
+				NeoForge.EVENT_BUS.post(new PlayerXpEvent.LevelChange(player, player.experienceLevel));
 		}
 	}
 

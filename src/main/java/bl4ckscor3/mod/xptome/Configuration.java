@@ -2,13 +2,13 @@ package bl4ckscor3.mod.xptome;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
-import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
-import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
+import net.neoforged.neoforge.common.ModConfigSpec.DoubleValue;
+import net.neoforged.neoforge.common.ModConfigSpec.IntValue;
 
 public class Configuration {
-	public static final ForgeConfigSpec CONFIG_SPEC;
+	public static final ModConfigSpec CONFIG_SPEC;
 	public static final Configuration CONFIG;
 	public final IntValue maxXP;
 	public final DoubleValue retrievalPercentage;
@@ -17,13 +17,13 @@ public class Configuration {
 	public final BooleanValue storeUntilPreviousLevel;
 
 	static {
-		Pair<Configuration, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Configuration::new);
+		Pair<Configuration, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(Configuration::new);
 
 		CONFIG_SPEC = specPair.getRight();
 		CONFIG = specPair.getLeft();
 	}
 
-	Configuration(ForgeConfigSpec.Builder builder) {
+	Configuration(ModConfigSpec.Builder builder) {
 		//@formatter:off
 		maxXP = builder
 				.comment("The maximum amount of XP points that the XP Tome can hold. The default value (1395) represents having 30 levels.")
