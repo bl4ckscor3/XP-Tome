@@ -12,22 +12,20 @@ import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.common.Mod.EventBusSubscriber;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.neoforge.event.AnvilUpdateEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.ForgeRegistries;
-import net.neoforged.neoforge.registries.RegistryObject;
 
 @Mod(XPTome.MODID)
 @EventBusSubscriber(modid = XPTome.MODID)
 public class XPTome {
 	public static final String MODID = "xpbook";
-	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
 	/** @deprecated This is kept for legacy reasons. Use the field below this one. */
 	@Deprecated
-	public static final RegistryObject<Item> XP_BOOK = ITEMS.register("xp_book", () -> new OldXPTomeItem(new Item.Properties().stacksTo(1)));
-	public static final RegistryObject<Item> XP_TOME = ITEMS.register("xp_tome", () -> new XPTomeItem(new Item.Properties().stacksTo(1)));
+	public static final DeferredItem<OldXPTomeItem> XP_BOOK = ITEMS.register("xp_book", () -> new OldXPTomeItem(new Item.Properties().stacksTo(1)));
+	public static final DeferredItem<XPTomeItem> XP_TOME = ITEMS.register("xp_tome", () -> new XPTomeItem(new Item.Properties().stacksTo(1)));
 
 	public XPTome(IEventBus modBus) {
 		ITEMS.register(modBus);
@@ -38,11 +36,11 @@ public class XPTome {
 	@SubscribeEvent
 	public static void onAnvilUpdate(AnvilUpdateEvent event) {
 		//prevention for a crash that should theoretically not happen, but apparently does
-		XP_BOOK.ifPresent(xpBook -> {
+		XP_BOOK.asOptional().ifPresent(xpBook -> {
 			if (event.getLeft().is(xpBook) || event.getRight().is(xpBook))
 				event.setCanceled(true);
 		});
-		XP_TOME.ifPresent(xpTome -> {
+		XP_TOME.asOptional().ifPresent(xpTome -> {
 			if (event.getLeft().is(xpTome) || event.getRight().is(xpTome))
 				event.setCanceled(true);
 		});
@@ -51,7 +49,7 @@ public class XPTome {
 	public void onCreativeModeTabBuildContents(BuildCreativeModeTabContentsEvent event) {
 		if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
 			event.getEntries().putAfter(new ItemStack(Blocks.ENCHANTING_TABLE), new ItemStack(XP_TOME.get()), TabVisibility.PARENT_AND_SEARCH_TABS);
-		if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
+		else if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
 			event.getEntries().putAfter(new ItemStack(Items.BOOK), new ItemStack(XP_TOME.get()), TabVisibility.PARENT_AND_SEARCH_TABS);
 	}
 }

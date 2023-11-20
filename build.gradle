@@ -6,7 +6,7 @@ plugins {
 //	id 'org.parchmentmc.librarian.forgegradle' version '1.+'  
 } 
 
-version = '2.1.8'
+version = '2.1.9'
 group = 'bl4ckscor3.mod.xptome'
 
 base {
@@ -33,7 +33,7 @@ runs {
 } 
 
 dependencies {
-    implementation 'net.neoforged:neoforge:20.2.48-beta' 
+    implementation 'net.neoforged:neoforge:20.2.59-beta' 
 }
 
 tasks.named('jar', Jar).configure {
