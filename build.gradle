@@ -6,7 +6,7 @@ plugins {
 //	id 'org.parchmentmc.librarian.forgegradle' version '1.+'  
 } 
 
-version = '2.1.9'
+version = '2.2'
 group = 'bl4ckscor3.mod.xptome'
 
 base {
