@@ -10,12 +10,12 @@ import com.mojang.serialization.Dynamic;
 import net.minecraft.util.datafix.fixes.ItemStackComponentizationFix;
 
 /**
- * Makes sure the xp b lock is properly converted to using components and no old data is lost
+ * Makes sure the xp tome is properly converted to using components and no old data is lost
  */
 @Mixin(ItemStackComponentizationFix.class)
 public class ItemStackComponentizationFixMixin {
 	@Inject(method = "fixItemStack", at = @At("TAIL"))
-	private static void xptome$fixXPBlockItemWithNewData(ItemStackComponentizationFix.ItemStackData itemStackData, Dynamic<?> dynamic, CallbackInfo ci) {
+	private static void xptome$fixXPTome(ItemStackComponentizationFix.ItemStackData itemStackData, Dynamic<?> dynamic, CallbackInfo ci) {
 		if (itemStackData.is("xpbook:xp_tome"))
 			itemStackData.moveTagToComponent("xp", "xpbook:stored_xp");
 	}
