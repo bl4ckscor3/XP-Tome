@@ -1,6 +1,6 @@
 modLoader="javafml"
 loaderVersion="[1,)"
-license="MIT https://github.com/bl4ckscor3/XP-Tome/blob/1.20.2/LICENSE"
+license="MIT https://github.com/bl4ckscor3/XP-Tome/blob/1.20.6/LICENSE"
 issueTrackerURL="https://github.com/bl4ckscor3/XP-Tome/issues"
 
 [[mods]]
@@ -8,19 +8,22 @@ issueTrackerURL="https://github.com/bl4ckscor3/XP-Tome/issues"
 	version="${file.jarVersion}"
 	displayName="XP Tome"
 	description='''Adds a book that can store a configurable amount of XP.'''
-	displayURL="https://minecraft.curseforge.com/projects/xp-tome"
+	displayURL="https://curseforge.com/minecraft/mc-mods/xp-tome"
 	authors="bl4ckscor3"
+
+[[mixins]]
+    config="xptome.mixins.json"
 
 [[dependencies.xpbook]]
     modId="neoforge"
-    mandatory=true
-    versionRange="[20.2.59-beta,)"
+    type="required"
+    versionRange="[20.6,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.xpbook]]
     modId="minecraft"
-    mandatory=true
-    versionRange="[1.20.2,1.21)"
+    type="required"
+    versionRange="[1.20.6,1.21)"
     ordering="NONE"
     side="BOTH"

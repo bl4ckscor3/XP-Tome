@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:book"
+    },
+    "E": {
+      "tag": "c:ender_pearls"
+    }
+  },
+  "pattern": [
+    " E ",
+    "EBE",
+    " E "
+  ],
+  "result": {
+    "count": 1,
+    "id": "xpbook:xp_tome"
+  }
+}

@@ -1,9 +1,8 @@
 package bl4ckscor3.mod.xptome;
 
 import java.util.List;
-import java.util.function.Consumer;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -30,10 +29,8 @@ public class OldXPTomeItem extends Item {
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		int xp = getXPStored(player.getItemInHand(hand));
 		ItemStack newStack = new ItemStack(XPTome.XP_TOME.get());
-		CompoundTag tag = new CompoundTag();
 
-		tag.putInt("xp", xp);
-		newStack.setTag(tag);
+		newStack.set(XPTome.STORED_XP, xp);
 
 		if (world.isClientSide) //only play the sound clientside
 			player.playSound(SoundEvents.CHICKEN_EGG, 1.0F, 1.0F);
@@ -47,7 +44,7 @@ public class OldXPTomeItem extends Item {
 	}
 
 	@Override
-	public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
+	public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Runnable onBroken) {
 		return 0;
 	}
 
@@ -75,8 +72,8 @@ public class OldXPTomeItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
-		tooltip.add(Component.translatable("xpbook.tooltip.3", getXPStored(stack), MAX_STORAGE).setStyle(XPTomeItem.TOOLTIP_STYLE));
+	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
+		tooltip.add(Component.translatable("xpbook.tooltip.3", getXPStored(stack), MAX_STORAGE).withStyle(ChatFormatting.GRAY));
 	}
 
 	/**

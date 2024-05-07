@@ -1,7 +1,10 @@
 {
     "item.xpbook.xp_book": "OLD - RIGHTCLICK TO CONVERT",
     "item.xpbook.xp_tome": "XP Tome",
-    "xpbook.tooltip.1": "Sneak + right-click to store as much XP as possible",
-    "xpbook.tooltip.2": "Right-click to retrieve all XP",
-    "xpbook.tooltip.3": "%1$s/%2$s XP stored"
+    "xpbook.tooltip.store.max": "Sneak + right-click to store as much XP as possible",
+    "xpbook.tooltip.store.previous": "Sneak + right-click to store at most one level of XP",
+    "xpbook.tooltip.retrieve.max": "Right-click to retrieve all XP",
+    "xpbook.tooltip.retrieve.next": "Right-click to retrieve at most one level of XP",
+    "xpbook.tooltip.retrieve.orb": "Creates XP orbs",
+    "xpbook.tooltip.stored_xp": "%1$s/%2$s XP stored"
 }

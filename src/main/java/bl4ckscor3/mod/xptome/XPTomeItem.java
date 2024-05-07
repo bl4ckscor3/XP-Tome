@@ -5,7 +5,6 @@ import java.util.List;
 import bl4ckscor3.mod.xptome.openmods.utils.EnchantmentUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -22,26 +21,29 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
 
 public class XPTomeItem extends Item {
-	public static final Style TOOLTIP_STYLE = Style.EMPTY.applyFormat(ChatFormatting.GRAY);
-	private static final Component TOOLTIP_1 = Component.translatable("xpbook.tooltip.1").setStyle(TOOLTIP_STYLE);
-	private static final Component TOOLTIP_2 = Component.translatable("xpbook.tooltip.2").setStyle(TOOLTIP_STYLE);
+	public static final int DEFAULT_MAX_XP = 1395;
+	private static final Component TOOLTIP_STORE_MAX = Component.translatable("xpbook.tooltip.store.max").withStyle(ChatFormatting.GRAY);
+	private static final Component TOOLTIP_STORE_PREVIOUS = Component.translatable("xpbook.tooltip.store.previous").withStyle(ChatFormatting.GRAY);
+	private static final Component TOOLTIP_RETRIEVE_MAX = Component.translatable("xpbook.tooltip.retrieve.max").withStyle(ChatFormatting.GRAY);
+	private static final Component TOOLTIP_RETRIEVE_NEXT = Component.translatable("xpbook.tooltip.retrieve.next").withStyle(ChatFormatting.GRAY);
+	private static final Component TOOLTIP_RETRIEVES_AS_ORBS = Component.translatable("xpbook.tooltip.retrieve.orb").withStyle(ChatFormatting.AQUA);
 
 	public XPTomeItem(Item.Properties properties) {
 		super(properties);
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		int storedXP = getStoredXP(stack);
 
 		if (stack.getCount() > 1)
 			return InteractionResultHolder.pass(stack);
 
-		if (player.isShiftKeyDown() && storedXP < Configuration.CONFIG.maxXP.get()) {
+		if (player.isShiftKeyDown() && storedXP < getMaxXP(stack)) {
 			int xpToStore = 0;
 
-			if (Configuration.CONFIG.storeUntilPreviousLevel.get()) {
+			if (stack.has(XPTome.STORE_UNTIL_PREVIOUS_LEVEL)) {
 				int xpForCurrentLevel = EnchantmentUtils.getExperienceForLevel(player.experienceLevel);
 
 				xpToStore = EnchantmentUtils.getPlayerXP(player) - xpForCurrentLevel;
@@ -67,36 +69,38 @@ public class XPTomeItem extends Item {
 					NeoForge.EVENT_BUS.post(new PlayerXpEvent.LevelChange(player, player.experienceLevel));
 			}
 
-			if (!world.isClientSide)
-				world.playSound(null, player.blockPosition(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.1F, (world.random.nextFloat() - world.random.nextFloat()) * 0.35F + 0.9F);
+			if (!level.isClientSide)
+				level.playSound(null, player.blockPosition(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.1F, (level.random.nextFloat() - level.random.nextFloat()) * 0.35F + 0.9F);
 
 			return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
 		}
 		else if (!player.isShiftKeyDown() && storedXP > 0) {
-			if (Configuration.CONFIG.retriveUntilNextLevel.get()) {
+			boolean asOrbs = stack.has(XPTome.RETRIEVE_XP_ORBS);
+
+			if (stack.has(XPTome.RETRIEVE_UNTIL_NEXT_LEVEL)) {
 				int xpForPlayer = EnchantmentUtils.getExperienceForLevel(player.experienceLevel + 1) - EnchantmentUtils.getPlayerXP(player);
 				//if retrievalPercentage is 75%, these 75% should be given to the player, but an extra 25% needs to be removed from the tome
 				//using floor to be generous towards the player, removing slightly less xp than should be removed (can't be 100% accurate, because XP is saved as an int)
-				int xpToRetrieve = (int) Math.floor(xpForPlayer / Configuration.CONFIG.retrievalPercentage.get());
+				double retrievalPercentage = getRetrievalPercentage(stack);
+				int xpToRetrieve = retrievalPercentage == 0.0D ? 0 : (int) Math.floor(xpForPlayer / retrievalPercentage);
 				int actuallyRemoved = removeXP(stack, xpToRetrieve);
 
 				//if the tome had less xp than the player should get, apply the XP loss to that value as well
 				if (actuallyRemoved < xpForPlayer)
-					xpForPlayer = (int) Math.floor(actuallyRemoved * Configuration.CONFIG.retrievalPercentage.get());
+					xpForPlayer = (int) Math.floor(actuallyRemoved * retrievalPercentage);
 
-				addOrSpawnXPForPlayer(player, xpForPlayer);
+				addOrSpawnXPForPlayer(player, xpForPlayer, asOrbs);
 			}
 			else {
 				//using ceil to be generous towards the player, adding slightly more xp than they should get (can't be 100% accurate, because XP is saved as an int)
-				addOrSpawnXPForPlayer(player, (int) Math.ceil(storedXP * Configuration.CONFIG.retrievalPercentage.get()));
+				addOrSpawnXPForPlayer(player, (int) Math.ceil(storedXP * getRetrievalPercentage(stack)), asOrbs);
 				setStoredXP(stack, 0);
 			}
 
-			if (!world.isClientSide && !Configuration.CONFIG.retrieveXPOrbs.get()) //picking up XP orbs creates a sound already, so only play a sound when XP is retrieved directly
-			{
+			if (!level.isClientSide && !asOrbs) { //picking up XP orbs creates a sound already, so only play a sound when XP is retrieved directly
 				float pitchMultiplier = player.experienceLevel > 30 ? 1.0F : player.experienceLevel / 30.0F;
 
-				world.playSound(null, player.blockPosition(), SoundEvents.PLAYER_LEVELUP, SoundSource.PLAYERS, pitchMultiplier * 0.75F, 1.0F);
+				level.playSound(null, player.blockPosition(), SoundEvents.PLAYER_LEVELUP, SoundSource.PLAYERS, pitchMultiplier * 0.75F, 1.0F);
 			}
 
 			return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
@@ -105,8 +109,8 @@ public class XPTomeItem extends Item {
 		return new InteractionResultHolder<>(InteractionResult.PASS, stack);
 	}
 
-	private void addOrSpawnXPForPlayer(Player player, int amount) {
-		if (Configuration.CONFIG.retrieveXPOrbs.get()) {
+	private void addOrSpawnXPForPlayer(Player player, int amount, boolean asOrbs) {
+		if (asOrbs) {
 			if (!player.level().isClientSide)
 				player.level().addFreshEntity(new ExperienceOrb(player.level(), player.getX(), player.getY(), player.getZ(), amount));
 		}
@@ -131,12 +135,12 @@ public class XPTomeItem extends Item {
 		//returning 1 results in an empty bar. returning 0 results in a full bar
 		//if there is more XP stored than MAX_STORAGE, the value will be negative, resulting in a longer than usual durability bar
 		//having a lower bound of 0 ensures that the bar does not exceed its normal length
-		return (int) Math.max(0.0D, MAX_BAR_WIDTH * ((double) getStoredXP(stack) / (double) Configuration.CONFIG.maxXP.get()));
+		return (int) Math.max(0.0D, MAX_BAR_WIDTH * ((double) getStoredXP(stack) / (double) getMaxXP(stack)));
 	}
 
 	@Override
 	public int getBarColor(ItemStack stack) {
-		float maxXP = Configuration.CONFIG.maxXP.get();
+		float maxXP = getMaxXP(stack);
 		float f = Math.max(0.0F, getStoredXP(stack) / maxXP);
 
 		return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
@@ -145,11 +149,6 @@ public class XPTomeItem extends Item {
 	@Override
 	public boolean isFoil(ItemStack stack) {
 		return getStoredXP(stack) > 0;
-	}
-
-	@Override
-	public boolean canBeDepleted() {
-		return false;
 	}
 
 	@Override
@@ -173,10 +172,31 @@ public class XPTomeItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
-		tooltip.add(TOOLTIP_1);
-		tooltip.add(TOOLTIP_2);
-		tooltip.add(Component.translatable("xpbook.tooltip.3", getStoredXP(stack), Configuration.CONFIG.maxXP.get()).setStyle(TOOLTIP_STYLE));
+	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
+		if (stack.has(XPTome.STORE_UNTIL_PREVIOUS_LEVEL))
+			tooltip.add(TOOLTIP_STORE_PREVIOUS);
+		else
+			tooltip.add(TOOLTIP_STORE_MAX);
+
+		if (stack.has(XPTome.RETRIEVE_UNTIL_NEXT_LEVEL))
+			tooltip.add(TOOLTIP_RETRIEVE_NEXT);
+		else
+			tooltip.add(TOOLTIP_RETRIEVE_MAX);
+
+		if (stack.has(XPTome.RETRIEVE_XP_ORBS))
+			tooltip.add(TOOLTIP_RETRIEVES_AS_ORBS);
+
+		int storedXP = getStoredXP(stack);
+		int maxXP = getMaxXP(stack);
+		double fillLevel = storedXP / (double) maxXP;
+		ChatFormatting color = ChatFormatting.GREEN;
+
+		if (fillLevel >= 1.0D)
+			color = ChatFormatting.RED;
+		else if (fillLevel >= 0.9D)
+			color = ChatFormatting.YELLOW;
+
+		tooltip.add(Component.translatable("xpbook.tooltip.stored_xp", storedXP, maxXP).withStyle(color));
 	}
 
 	/**
@@ -187,12 +207,12 @@ public class XPTomeItem extends Item {
 	 * @param amount The amount of XP to add
 	 * @return The amount XP that was added
 	 */
-	public int addXP(ItemStack stack, int amount) {
+	public static int addXP(ItemStack stack, int amount) {
 		if (amount <= 0) //can't add a negative amount of XP
 			return 0;
 
 		int stored = getStoredXP(stack);
-		int maxStorage = Configuration.CONFIG.maxXP.get();
+		int maxStorage = getMaxXP(stack);
 
 		if (stored >= maxStorage) //can't add XP to a full book
 			return 0;
@@ -215,7 +235,7 @@ public class XPTomeItem extends Item {
 	 * @param amount The amount of XP to remove
 	 * @return The amount XP that was removed
 	 */
-	public int removeXP(ItemStack stack, int amount) {
+	public static int removeXP(ItemStack stack, int amount) {
 		if (amount <= 0) //can't remove a negative amount of XP
 			return 0;
 
@@ -240,8 +260,8 @@ public class XPTomeItem extends Item {
 	 * @param stack The stack to set the amount of stored XP of
 	 * @param amount The amount of XP to set the storage to
 	 */
-	public void setStoredXP(ItemStack stack, int amount) {
-		stack.getOrCreateTag().putInt("xp", amount);
+	public static void setStoredXP(ItemStack stack, int amount) {
+		stack.set(XPTome.STORED_XP, amount);
 	}
 
 	/**
@@ -250,7 +270,27 @@ public class XPTomeItem extends Item {
 	 * @param stack The stack to get the amount of stored XP from
 	 * @return The amount of stored XP in the stack
 	 */
-	public int getStoredXP(ItemStack stack) {
-		return stack.getOrCreateTag().getInt("xp");
+	public static int getStoredXP(ItemStack stack) {
+		return stack.getOrDefault(XPTome.STORED_XP, 0);
+	}
+
+	/**
+	 * Gets the maximum amount of XP that the given stack can store
+	 *
+	 * @param stack The stack to get the maximum amount of XP from
+	 * @return The maximum amount of XP the stack can store
+	 */
+	public static int getMaxXP(ItemStack stack) {
+		return stack.getOrDefault(XPTome.MAXIMUM_XP, DEFAULT_MAX_XP);
+	}
+
+	/**
+	 * Gets the percentage of XP that the given stack will give back to the player
+	 *
+	 * @param stack The stack to get the retrieval percentage from
+	 * @return The percentage of XP the stack will give back
+	 */
+	public static double getRetrievalPercentage(ItemStack stack) {
+		return stack.getOrDefault(XPTome.RETRIEVAL_PERCENTAGE, 1.0D);
 	}
 }

@@ -1,0 +1,10 @@
+{
+  "pack": {
+    "description": "XP Tome resources & data",
+    "pack_format": 32,
+    "supported_formats": [
+      0,
+      2147483647
+    ]
+  }
+}

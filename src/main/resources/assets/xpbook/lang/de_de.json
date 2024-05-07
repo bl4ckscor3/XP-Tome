@@ -1,6 +1,10 @@
 {
+    "item.xpbook.xp_book": "ALT - RECHTSKLICK ZUM KONVERTIEREN",
     "item.xpbook.xp_tome": "XP Wälzer",
-    "xpbook.tooltip.1": "Ducken + Rechtsklick um so viel XP wie möglich zu speichern",
-    "xpbook.tooltip.2": "Rechtsklick um alle XP herauszuholen",
-    "xpbook.tooltip.3": "%1$s/%2$s XP gespeichert"
+    "xpbook.tooltip.store.max": "Ducken + Rechtsklick um so viel XP wie möglich zu speichern",
+    "xpbook.tooltip.store.previous": "Ducken + Rechtsklick um maximal einen XP-Level zu speichern",
+    "xpbook.tooltip.retrieve.max": "Rechtsklick um alle XP herauszuholen",
+    "xpbook.tooltip.retrieve.next": "Rechtsklick um maximal einen XP-Level herauszuholen",
+    "xpbook.tooltip.retrieve.orb": "Erstellt Erfahrungskugeln",
+    "xpbook.tooltip.stored_xp": "%1$s/%2$s XP gespeichert"
 }
