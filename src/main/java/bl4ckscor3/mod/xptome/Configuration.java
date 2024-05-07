@@ -26,8 +26,8 @@ public class Configuration {
 	Configuration(ForgeConfigSpec.Builder builder) {
 		//@formatter:off
 		maxXP = builder
-				.comment("The maximum amount of XP points that the XP Tome can hold. The default value (1395) represents having 30 levels.")
-				.defineInRange("max_xp", 1395, 1, Integer.MAX_VALUE);
+				.comment("The maximum amount of XP points that the XP Tome can hold. The default value (133335) represents having 130 levels.")
+				.defineInRange("max_xp", 1335, 1, Integer.MAX_VALUE);
 		retrievalPercentage = builder
 				.comment("The percentage of XP that the book will give back, as a sort of cost of using it.",
 						"Example: If this config value is set to 0.75, and an XP Tome has 100 XP stored, attempting to retrieve these 100 XP will give back 75 XP.",
