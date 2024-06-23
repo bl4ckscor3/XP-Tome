@@ -1,0 +1,10 @@
+{
+	"item.xpbook.xp_book": "OBSOLETO - CLICK DERECHO PARA CONVERTIR",
+	"item.xpbook.xp_tome": "Tomo de XP",
+	"xpbook.tooltip.store.max": "Agacharse + click derecho para almacenar la mayor cantidad de XP posible",
+	"xpbook.tooltip.store.previous": "Agacharse + click derecho para almacenar como máximo un nivel de XP",
+	"xpbook.tooltip.retrieve.max": "Click derecho para recuperar toda la XP",
+	"xpbook.tooltip.retrieve.next": "Click derecho para recuperar como máximo un nivel de XP",
+	"xpbook.tooltip.retrieve.orb": "Crea orbes de XP",
+	"xpbook.tooltip.stored_xp": "%1$s/%2$s XP almacenada"
+}
