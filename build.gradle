@@ -15,7 +15,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 
-version = '2.2'
+version = '2.2.1'
 group = 'bl4ckscor3.mod.xptome'
 
 base {
