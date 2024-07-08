@@ -5,7 +5,7 @@ plugins {
     id 'net.neoforged.gradle.userdev' version '7.0.+'
 }
 
-version = '2.3.1'
+version = '2.3.2'
 group = 'bl4ckscor3.mod.xptome'
 
 base {
@@ -47,7 +47,7 @@ runs {
 }
 
 dependencies {
-	implementation 'net.neoforged:neoforge:21.0.2-beta'
+	implementation 'net.neoforged:neoforge:21.0.76-beta'
 }
 
 tasks.named('jar', Jar).configure {
