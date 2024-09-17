@@ -9,7 +9,7 @@ version = '2.3.2'
 group = 'bl4ckscor3.mod.xptome'
 
 base {
-	archivesName = 'xptome-1.21'
+	archivesName = 'xptome-1.21.1'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -32,22 +32,22 @@ runs {
     }
 
     client {
-        workingDirectory project.file('run/client')
+        workingDirectory project.file('runs/client')
     }
 
     server {
-        workingDirectory project.file('run/server')
-        programArgument '-nogui'
+        workingDirectory project.file('runs/server')
+        argument '-nogui'
     }
 
     data {
 		workingDirectory project.file('run/data')
-		programArguments.addAll '--mod', 'xpbook', '--all', '--output', file('src/generated/resources/').getAbsolutePath()
+		arguments.addAll '--mod', 'xpbook', '--all', '--output', file('src/generated/resources/').getAbsolutePath()
 	}
 }
 
 dependencies {
-	implementation 'net.neoforged:neoforge:21.0.76-beta'
+	implementation 'net.neoforged:neoforge:21.1.47'
 }
 
 tasks.named('jar', Jar).configure {
