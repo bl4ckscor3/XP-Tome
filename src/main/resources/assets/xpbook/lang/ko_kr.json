@@ -1,0 +1,7 @@
+{
+    "item.xpbook.xp_book": "이전 버전의 XP 책 - 우클릭하여 변환하세요",
+    "item.xpbook.xp_tome": "XP 책",
+    "xpbook.tooltip.1": "웅크리기 + 우클릭하여 최대한 많은 XP를 저장합니다",
+    "xpbook.tooltip.2": "우클릭하여 모든 XP를 회수합니다",
+    "xpbook.tooltip.3": "%1$s/%2$s XP 저장됨"
+}
