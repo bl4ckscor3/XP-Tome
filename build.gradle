@@ -32,22 +32,22 @@ runs {
     }
 
     client {
-        workingDirectory project.file('run/client')
+        workingDirectory project.file('runs/client')
     }
 
     server {
-        workingDirectory project.file('run/server')
+        workingDirectory project.file('runs/server')
         programArgument '-nogui'
     }
 
     data {
-		workingDirectory project.file('run/data')
+		workingDirectory project.file('runs/data')
 		programArguments.addAll '--mod', 'xpbook', '--all', '--output', file('src/generated/resources/').getAbsolutePath()
 	}
 }
 
 dependencies {
-    implementation 'net.neoforged:neoforge:20.6.42-beta'
+    implementation 'net.neoforged:neoforge:20.6.119'
 }
 
 tasks.named('jar', Jar).configure {

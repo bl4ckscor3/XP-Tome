@@ -17,7 +17,7 @@ issueTrackerURL="https://github.com/bl4ckscor3/XP-Tome/issues"
 [[dependencies.xpbook]]
     modId="neoforge"
     type="required"
-    versionRange="[20.6,)"
+    versionRange="[20.6.104-beta,)"
     ordering="NONE"
     side="BOTH"
 
