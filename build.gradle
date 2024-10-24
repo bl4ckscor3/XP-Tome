@@ -2,7 +2,7 @@ plugins {
     id 'java-library'
     id 'eclipse'
     id 'idea'
-    id 'net.neoforged.gradle.userdev' version '7.0.105'
+    id 'net.neoforged.gradle.userdev' version '7.0.+'
 }
 
 version = '2.3.1'
@@ -37,12 +37,12 @@ runs {
 
     server {
         workingDirectory project.file('runs/server')
-        programArgument '-nogui'
+        argument '-nogui'
     }
 
     data {
 		workingDirectory project.file('runs/data')
-		programArguments.addAll '--mod', 'xpbook', '--all', '--output', file('src/generated/resources/').getAbsolutePath()
+		arguments.addAll '--mod', 'xpbook', '--all', '--output', file('src/generated/resources/').getAbsolutePath()
 	}
 }
 
