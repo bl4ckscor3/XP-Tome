@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "B": {
-      "item": "minecraft:book"
-    },
-    "E": {
-      "tag": "c:ender_pearls"
-    }
+    "B": "minecraft:book",
+    "E": "#c:ender_pearls"
   },
   "pattern": [
     " E ",

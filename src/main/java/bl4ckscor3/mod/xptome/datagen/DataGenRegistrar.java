@@ -29,7 +29,7 @@ public class DataGenRegistrar {
 		CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
 		generator.addProvider(event.includeServer(), new ItemTagGenerator(output, lookupProvider, event.getExistingFileHelper()));
-		generator.addProvider(event.includeServer(), new RecipeGenerator(output, lookupProvider));
+		generator.addProvider(event.includeServer(), new RecipeGenerator.Runner(output, lookupProvider));
 		//@formatter:off
 		generator.addProvider(true, new PackMetadataGenerator(output)
 				.add(PackMetadataSection.TYPE, new PackMetadataSection(Component.literal("XP Tome resources & data"),

@@ -10,7 +10,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -33,12 +32,12 @@ public class XPTomeItem extends Item {
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+	public InteractionResult use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		int storedXP = getStoredXP(stack);
 
 		if (stack.getCount() > 1)
-			return InteractionResultHolder.pass(stack);
+			return InteractionResult.PASS;
 
 		if (player.isShiftKeyDown() && storedXP < getMaxXP(stack)) {
 			int xpToStore = 0;
@@ -55,7 +54,7 @@ public class XPTomeItem extends Item {
 				xpToStore = EnchantmentUtils.getPlayerXP(player);
 
 			if (xpToStore == 0)
-				return new InteractionResultHolder<>(InteractionResult.PASS, stack);
+				return InteractionResult.PASS;
 
 			int actuallyStored = addXP(stack, xpToStore); //store as much XP as possible
 
@@ -72,7 +71,7 @@ public class XPTomeItem extends Item {
 			if (!level.isClientSide)
 				level.playSound(null, player.blockPosition(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.1F, (level.random.nextFloat() - level.random.nextFloat()) * 0.35F + 0.9F);
 
-			return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
+			return InteractionResult.SUCCESS_SERVER;
 		}
 		else if (!player.isShiftKeyDown() && storedXP > 0) {
 			boolean asOrbs = stack.has(XPTome.RETRIEVE_XP_ORBS);
@@ -103,10 +102,10 @@ public class XPTomeItem extends Item {
 				level.playSound(null, player.blockPosition(), SoundEvents.PLAYER_LEVELUP, SoundSource.PLAYERS, pitchMultiplier * 0.75F, 1.0F);
 			}
 
-			return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
+			return InteractionResult.SUCCESS_SERVER;
 		}
 
-		return new InteractionResultHolder<>(InteractionResult.PASS, stack);
+		return InteractionResult.PASS;
 	}
 
 	private void addOrSpawnXPForPlayer(Player player, int amount, boolean asOrbs) {
@@ -153,16 +152,6 @@ public class XPTomeItem extends Item {
 
 	@Override
 	public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-		return false;
-	}
-
-	@Override
-	public boolean isEnchantable(ItemStack stack) {
-		return false;
-	}
-
-	@Override
-	public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) {
 		return false;
 	}
 

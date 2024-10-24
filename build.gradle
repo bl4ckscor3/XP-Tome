@@ -9,7 +9,7 @@ version = '2.4'
 group = 'bl4ckscor3.mod.xptome'
 
 base {
-	archivesName = 'xptome-1.21.1'
+	archivesName = 'xptome-1.21.3'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -41,13 +41,13 @@ runs {
     }
 
     data {
-		workingDirectory project.file('run/data')
+		workingDirectory project.file('runs/data')
 		arguments.addAll '--mod', 'xpbook', '--all', '--output', file('src/generated/resources/').getAbsolutePath()
 	}
 }
 
 dependencies {
-	implementation 'net.neoforged:neoforge:21.1.47'
+	implementation 'net.neoforged:neoforge:21.3.1-beta'
 }
 
 tasks.named('jar', Jar).configure {

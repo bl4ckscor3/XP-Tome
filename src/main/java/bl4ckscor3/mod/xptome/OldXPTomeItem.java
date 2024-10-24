@@ -7,7 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -27,7 +27,7 @@ public class OldXPTomeItem extends Item {
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+	public InteractionResult use(Level world, Player player, InteractionHand hand) {
 		int xp = getXPStored(player.getItemInHand(hand));
 		ItemStack newStack = new ItemStack(XPTome.XP_TOME.get());
 
@@ -36,7 +36,7 @@ public class OldXPTomeItem extends Item {
 		if (world.isClientSide) //only play the sound clientside
 			player.playSound(SoundEvents.CHICKEN_EGG, 1.0F, 1.0F);
 
-		return InteractionResultHolder.consume(newStack);
+		return InteractionResult.CONSUME.heldItemTransformedTo(newStack);
 	}
 
 	@Override
@@ -54,16 +54,6 @@ public class OldXPTomeItem extends Item {
 
 	@Override
 	public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-		return false;
-	}
-
-	@Override
-	public boolean isEnchantable(ItemStack stack) {
-		return false;
-	}
-
-	@Override
-	public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) {
 		return false;
 	}
 
