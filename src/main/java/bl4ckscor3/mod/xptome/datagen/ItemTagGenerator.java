@@ -7,11 +7,10 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class ItemTagGenerator extends ItemTagsProvider {
-	public ItemTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
-		super(output, lookupProvider, CompletableFuture.supplyAsync(() -> null), XPTome.MODID, existingFileHelper);
+	public ItemTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+		super(output, lookupProvider, CompletableFuture.supplyAsync(() -> null), XPTome.MODID);
 	}
 
 	@Override

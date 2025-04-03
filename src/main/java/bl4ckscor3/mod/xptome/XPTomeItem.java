@@ -156,7 +156,7 @@ public class XPTomeItem extends Item {
 	}
 
 	@Override
-	public boolean isRepairable(ItemStack stack) {
+	public boolean isCombineRepairable(ItemStack stack) {
 		return false;
 	}
 
