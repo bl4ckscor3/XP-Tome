@@ -1,6 +1,4 @@
-modLoader="javafml"
-loaderVersion="[1,)"
-license="MIT https://github.com/bl4ckscor3/XP-Tome/blob/1.21.4/LICENSE"
+license="MIT https://github.com/bl4ckscor3/XP-Tome/blob/1.21.5/LICENSE"
 issueTrackerURL="https://github.com/bl4ckscor3/XP-Tome/issues"
 
 [[mods]]
@@ -17,13 +15,13 @@ issueTrackerURL="https://github.com/bl4ckscor3/XP-Tome/issues"
 [[dependencies.xpbook]]
     modId="neoforge"
     type="required"
-    versionRange="[21.4.13-beta,)"
+    versionRange="[21.5.11-beta,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.xpbook]]
     modId="minecraft"
     type="required"
-    versionRange="[1.21.4,1.22)"
+    versionRange="[1.21.5,1.22)"
     ordering="NONE"
     side="BOTH"

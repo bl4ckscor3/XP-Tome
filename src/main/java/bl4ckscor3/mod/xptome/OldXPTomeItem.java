@@ -1,6 +1,5 @@
 package bl4ckscor3.mod.xptome;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 import net.minecraft.ChatFormatting;
@@ -13,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 
 /**
@@ -63,8 +63,8 @@ public class OldXPTomeItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
-		tooltip.add(Component.translatable("xpbook.tooltip.3", getXPStored(stack), MAX_STORAGE).withStyle(ChatFormatting.GRAY));
+	public void appendHoverText(ItemStack stack, TooltipContext ctx, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+		tooltipAdder.accept(Component.translatable("xpbook.tooltip.3", getXPStored(stack), MAX_STORAGE).withStyle(ChatFormatting.GRAY));
 	}
 
 	/**

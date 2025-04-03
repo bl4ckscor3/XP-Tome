@@ -1,6 +1,6 @@
 package bl4ckscor3.mod.xptome;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 import bl4ckscor3.mod.xptome.openmods.utils.EnchantmentUtils;
 import net.minecraft.ChatFormatting;
@@ -15,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
@@ -161,31 +162,37 @@ public class XPTomeItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag flag) {
-		if (stack.has(XPTome.STORE_UNTIL_PREVIOUS_LEVEL))
-			tooltip.add(TOOLTIP_STORE_PREVIOUS);
-		else
-			tooltip.add(TOOLTIP_STORE_MAX);
+	public void appendHoverText(ItemStack stack, TooltipContext ctx, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+		if (display.shows(XPTome.STORE_UNTIL_PREVIOUS_LEVEL.get())) {
+			if (stack.has(XPTome.STORE_UNTIL_PREVIOUS_LEVEL))
+				tooltipAdder.accept(TOOLTIP_STORE_PREVIOUS);
+			else
+				tooltipAdder.accept(TOOLTIP_STORE_MAX);
+		}
 
-		if (stack.has(XPTome.RETRIEVE_UNTIL_NEXT_LEVEL))
-			tooltip.add(TOOLTIP_RETRIEVE_NEXT);
-		else
-			tooltip.add(TOOLTIP_RETRIEVE_MAX);
+		if (display.shows(XPTome.RETRIEVE_UNTIL_NEXT_LEVEL.get())) {
+			if (stack.has(XPTome.RETRIEVE_UNTIL_NEXT_LEVEL))
+				tooltipAdder.accept(TOOLTIP_RETRIEVE_NEXT);
+			else
+				tooltipAdder.accept(TOOLTIP_RETRIEVE_MAX);
+		}
 
-		if (stack.has(XPTome.RETRIEVE_XP_ORBS))
-			tooltip.add(TOOLTIP_RETRIEVES_AS_ORBS);
+		if (stack.has(XPTome.RETRIEVE_XP_ORBS) && display.shows(XPTome.RETRIEVE_XP_ORBS.get()))
+			tooltipAdder.accept(TOOLTIP_RETRIEVES_AS_ORBS);
 
-		int storedXP = getStoredXP(stack);
-		int maxXP = getMaxXP(stack);
-		double fillLevel = storedXP / (double) maxXP;
-		ChatFormatting color = ChatFormatting.GREEN;
+		if (display.shows(XPTome.STORED_XP.get())) {
+			int storedXP = getStoredXP(stack);
+			int maxXP = getMaxXP(stack);
+			double fillLevel = storedXP / (double) maxXP;
+			ChatFormatting color = ChatFormatting.GREEN;
 
-		if (fillLevel >= 1.0D)
-			color = ChatFormatting.RED;
-		else if (fillLevel >= 0.9D)
-			color = ChatFormatting.YELLOW;
+			if (fillLevel >= 1.0D)
+				color = ChatFormatting.RED;
+			else if (fillLevel >= 0.9D)
+				color = ChatFormatting.YELLOW;
 
-		tooltip.add(Component.translatable("xpbook.tooltip.stored_xp", storedXP, maxXP).withStyle(color));
+			tooltipAdder.accept(Component.translatable("xpbook.tooltip.stored_xp", storedXP, maxXP).withStyle(color));
+		}
 	}
 
 	/**
