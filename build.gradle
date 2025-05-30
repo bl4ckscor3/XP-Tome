@@ -5,7 +5,7 @@ plugins {
 	id 'net.neoforged.moddev' version '2.0.82'
 }
 
-version = '2.4.1'
+version = '2.4.2'
 group = 'bl4ckscor3.mod.xptome'
 
 base {
@@ -24,12 +24,12 @@ sourceSets.main.resources {
 }
 
 neoForge {
-	version = "21.5.62-beta"
+	version = "21.5.73-beta"
 
 	runs {
 		configureEach {
 			logLevel = org.slf4j.event.Level.DEBUG
-			gameDirectory = project.file("run/" + name)
+			gameDirectory = project.file("runs/" + name)
 			ideName = "XPTome " + ideName.get()
 		}
 

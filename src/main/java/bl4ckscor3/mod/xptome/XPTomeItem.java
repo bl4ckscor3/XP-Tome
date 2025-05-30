@@ -152,11 +152,6 @@ public class XPTomeItem extends Item {
 	}
 
 	@Override
-	public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-		return false;
-	}
-
-	@Override
 	public boolean isCombineRepairable(ItemStack stack) {
 		return false;
 	}

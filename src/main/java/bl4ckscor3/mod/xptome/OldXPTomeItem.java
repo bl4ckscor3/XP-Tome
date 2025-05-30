@@ -53,11 +53,6 @@ public class OldXPTomeItem extends Item {
 	public void setDamage(ItemStack stack, int damage) {}
 
 	@Override
-	public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-		return false;
-	}
-
-	@Override
 	public boolean isCombineRepairable(ItemStack stack) {
 		return false;
 	}
