@@ -5,10 +5,10 @@ import java.util.concurrent.CompletableFuture;
 import bl4ckscor3.mod.xptome.XPTome;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
+import net.neoforged.neoforge.common.data.BlockTagCopyingItemTagProvider;
 
-public class ItemTagGenerator extends ItemTagsProvider {
+public class ItemTagGenerator extends BlockTagCopyingItemTagProvider {
 	public ItemTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
 		super(output, lookupProvider, CompletableFuture.supplyAsync(() -> null), XPTome.MODID);
 	}

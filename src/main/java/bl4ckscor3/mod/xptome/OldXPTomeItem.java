@@ -33,7 +33,7 @@ public class OldXPTomeItem extends Item {
 
 		newStack.set(XPTome.STORED_XP, xp);
 
-		if (world.isClientSide) //only play the sound clientside
+		if (world.isClientSide()) //only play the sound clientside
 			player.playSound(SoundEvents.CHICKEN_EGG, 1.0F, 1.0F);
 
 		return InteractionResult.CONSUME.heldItemTransformedTo(newStack);

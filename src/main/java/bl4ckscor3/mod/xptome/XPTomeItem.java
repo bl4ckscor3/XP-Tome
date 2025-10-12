@@ -69,7 +69,7 @@ public class XPTomeItem extends Item {
 					NeoForge.EVENT_BUS.post(new PlayerXpEvent.LevelChange(player, player.experienceLevel));
 			}
 
-			if (!level.isClientSide)
+			if (!level.isClientSide())
 				level.playSound(null, player.blockPosition(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.1F, (level.random.nextFloat() - level.random.nextFloat()) * 0.35F + 0.9F);
 
 			return InteractionResult.SUCCESS_SERVER;
@@ -97,7 +97,7 @@ public class XPTomeItem extends Item {
 				setStoredXP(stack, 0);
 			}
 
-			if (!level.isClientSide && !asOrbs) { //picking up XP orbs creates a sound already, so only play a sound when XP is retrieved directly
+			if (!level.isClientSide() && !asOrbs) { //picking up XP orbs creates a sound already, so only play a sound when XP is retrieved directly
 				float pitchMultiplier = player.experienceLevel > 30 ? 1.0F : player.experienceLevel / 30.0F;
 
 				level.playSound(null, player.blockPosition(), SoundEvents.PLAYER_LEVELUP, SoundSource.PLAYERS, pitchMultiplier * 0.75F, 1.0F);
@@ -111,7 +111,7 @@ public class XPTomeItem extends Item {
 
 	private void addOrSpawnXPForPlayer(Player player, int amount, boolean asOrbs) {
 		if (asOrbs) {
-			if (!player.level().isClientSide)
+			if (!player.level().isClientSide())
 				player.level().addFreshEntity(new ExperienceOrb(player.level(), player.getX(), player.getY(), player.getZ(), amount));
 		}
 		else {
