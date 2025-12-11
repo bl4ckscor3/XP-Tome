@@ -41,8 +41,8 @@ public class XPTome {
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Unit>> STORE_UNTIL_PREVIOUS_LEVEL = DATA_COMPONENTS.registerComponentType("store_until_previous_level", builder -> builder.persistent(Unit.CODEC).networkSynchronized(StreamCodec.unit(Unit.INSTANCE)).cacheEncoding());
 	/** @deprecated This is kept for legacy reasons. Use the field below this one. */
 	@Deprecated
-	public static final DeferredItem<OldXPTomeItem> XP_BOOK = ITEMS.registerItem("xp_book", OldXPTomeItem::new, new Item.Properties().stacksTo(1));
-	public static final DeferredItem<XPTomeItem> XP_TOME = ITEMS.registerItem("xp_tome", p -> new XPTomeItem(Configuration.CONFIG.applyToDefaultComponents(p.component(STORED_XP, 0))), new Item.Properties().stacksTo(1));
+	public static final DeferredItem<OldXPTomeItem> XP_BOOK = ITEMS.registerItem("xp_book", OldXPTomeItem::new, () -> new Item.Properties().stacksTo(1));
+	public static final DeferredItem<XPTomeItem> XP_TOME = ITEMS.registerItem("xp_tome", p -> new XPTomeItem(Configuration.CONFIG.applyToDefaultComponents(p.component(STORED_XP, 0))), () -> new Item.Properties().stacksTo(1));
 
 	public XPTome(IEventBus modBus, ModContainer container) {
 		container.registerConfig(ModConfig.Type.STARTUP, Configuration.CONFIG_SPEC, "xptome.toml");
