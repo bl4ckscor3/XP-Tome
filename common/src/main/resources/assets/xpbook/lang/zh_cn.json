@@ -1,0 +1,6 @@
+{
+    "item.xpbook.xp_tome": "经验宝典",
+    "xpbook.tooltip.store.max": "潜行右键来保存尽可能多的经验",
+    "xpbook.tooltip.retrieve.max": "右键取出所有经验",
+    "xpbook.tooltip.stored_xp": "%1$s/%2$s经验储量"
+}

@@ -1,81 +1,87 @@
 plugins {
-    id 'java-library'
-    id 'eclipse'
     id 'idea'
-	id 'net.neoforged.moddev' version '2.0.141'
 }
 
-version = '2.4.2'
-group = 'bl4ckscor3.mod.xptome'
+subprojects {
+    apply plugin: 'java'
 
-base {
-	archivesName = 'xptome-26.1.2'
-}
+    base {
+        archivesName = "xptome-${project.path.substring(1)}-${minecraft_version}"
+    }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(25)
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+    java.toolchain.languageVersion = JavaLanguageVersion.of(java_version)
 
-processResources {
-	exclude ".cache"
-}
+    repositories {
+        maven {
+            url "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+        }
+    }
 
-sourceSets.main.resources {
-	srcDir 'src/generated/resources' //include generated files
-}
+    jar {
+        destinationDirectory = file("../build/libs")
+        exclude('bl4ckscor3/mod/xptome/datagen/**') //exclude files from the built jar that are only used to generate the assets & data
 
-neoForge {
-	version = "26.1.2.7-beta"
+        from(rootProject.file("LICENSE")) {
+            rename { "${it}_${mod_name}" }
+        }
 
-	runs {
-		configureEach {
-			logLevel = org.slf4j.event.Level.DEBUG
-			gameDirectory = project.file("runs/" + name)
-			ideName = "XPTome " + ideName.get()
-		}
+        manifest {
+            attributes([
+                    'Specification-Title'     : mod_name,
+                    'Specification-Vendor'    : mod_author,
+                    'Specification-Version'   : project.jar.archiveVersion,
+                    'Implementation-Title'    : project.name,
+                    'Implementation-Version'  : project.jar.archiveVersion,
+                    'Implementation-Vendor'   : mod_author,
+                    'Built-On-Minecraft'      : minecraft_version
+            ])
+        }
+    }
 
-		client {
-			client()
-		}
+    tasks.withType(JavaCompile).configureEach {
+        it.options.encoding = 'UTF-8'
+        it.options.getRelease().set(java_version.toInteger())
+    }
 
-		server {
-			server()
-			programArgument('-nogui')
-		}
+    tasks.withType(AbstractTestTask).configureEach {
+        failOnNoDiscoveredTests = false
+    }
 
-		data {
-			clientData()
-			programArguments.addAll('--mod', 'xpbook', '--all', '--output', file('src/generated/resources/').getAbsolutePath())
-		}
-	}
+    processResources {
+        var expandProps = [
+                'version'                   : version,
+                'minecraft_version'         : minecraft_version,
+                'java_version'              : java_version,
+                'license'                   : license,
+                'mod_id'                    : mod_id,
+                'mod_name'                  : mod_name,
+                'description'               : project.description,
+                'mod_author'                : mod_author,
+                'minecraft_version_range'   : minecraft_version_range,
+                'fcap_version'              : fcap_version,
+                'neoforge_version'          : neoforge_version,
+                'source_link'               : source_link,
+                'cf_link'                   : cf_link
+        ]
+        var jsonExpandProps = expandProps.collectEntries {
+            key, value -> [(key): value instanceof String ? value.replace("\n", "\\\\n") : value]
+        }
 
-	mods {
-		xpbook {
-			sourceSet(sourceSets.main)
-		}
-	}
-}
+        filesMatching(['META-INF/neoforge.mods.toml']) {
+            expand expandProps
+        }
 
-tasks.named('jar', Jar).configure {
-	exclude('bl4ckscor3/mod/xptome/datagen/**') //exclude files from the built jar that are only used to generate the assets & data
+        filesMatching(['fabric.mod.json', '*.mixins.json']) {
+            expand jsonExpandProps
+        }
 
-    manifest {
-        attributes(["Specification-Title": "XP Tome",
-                    "Specification-Vendor": "bl4ckscor3",
-                    "Specification-Version": "${version}",
-                    "Implementation-Title": "XP Tome",
-                    "Implementation-Version": "${version}",
-                    "Implementation-Vendor": "bl4ckscor3"])
+        inputs.properties(expandProps)
     }
 }
 
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-	options.release = 25
-}
-
 idea {
-	module {
-		downloadSources = true
-		downloadJavadoc = true
-	}
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
 }

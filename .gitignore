@@ -1,12 +1,18 @@
-/bin
-/build
-/.project
-/.classpath
-/.gradle
-/runs
-/.settings
-*.launch
-/logs
-.idea/
+# Gradle
+.gradle
+build
+libs
 
-src/generated/resources/.cache/
+
+# IntelliJ
+.idea
+out
+
+# Eclipse
+.settings
+.classpath
+.project
+
+# Minecraft
+runs
+.cache
