@@ -17,6 +17,10 @@ subprojects {
         }
     }
 
+    sourceSets.main.resources {
+        srcDir 'src/generated/resources' //include generated files
+    }
+
     jar {
         destinationDirectory = file("../build/libs")
         exclude('bl4ckscor3/mod/xptome/datagen/**') //exclude files from the built jar that are only used to generate the assets & data
