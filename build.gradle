@@ -55,6 +55,7 @@ subprojects {
         var expandProps = [
                 'version'                   : version,
                 'minecraft_version'         : minecraft_version,
+                'minecraft_min_version'     : minecraft_min_version,
                 'java_version'              : java_version,
                 'license'                   : license,
                 'mod_id'                    : mod_id,
@@ -64,6 +65,7 @@ subprojects {
                 'minecraft_version_range'   : minecraft_version_range,
                 'fcap_version'              : fcap_version,
                 'neoforge_version'          : neoforge_version,
+                'neoforge_min_version'      : neoforge_min_version,
                 'source_link'               : source_link,
                 'cf_link'                   : cf_link
         ]

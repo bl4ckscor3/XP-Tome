@@ -25,7 +25,7 @@
     ],
     "depends": {
         "fabric-api": "*",
-        "minecraft": ">=${minecraft_version}",
+        "minecraft": ">=${minecraft_min_version}",
         "java": ">=${java_version}",
         "forgeconfigapiport": ">=${fcap_version}"
     }
