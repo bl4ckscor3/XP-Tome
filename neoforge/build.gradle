@@ -43,6 +43,10 @@ configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
 
+jar {
+    exclude("${mod_id}.accesswidener")
+}
+
 compileJava {
     source(project(":common").sourceSets.main.allSource)
 }

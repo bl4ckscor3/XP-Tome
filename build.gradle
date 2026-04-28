@@ -80,6 +80,7 @@ subprojects {
         }
 
         inputs.properties(expandProps)
+        exclude ".cache"
     }
 }
 

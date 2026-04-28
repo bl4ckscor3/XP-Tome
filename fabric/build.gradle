@@ -40,6 +40,10 @@ loom {
     }
 }
 
+jar {
+    exclude("META-INF/accesstransformer.cfg")
+}
+
 tasks.withType(JavaCompile).configureEach {
     source(project(":common").sourceSets.main.allSource)
 }
