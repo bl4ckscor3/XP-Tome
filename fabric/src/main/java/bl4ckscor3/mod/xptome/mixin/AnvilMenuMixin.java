@@ -20,7 +20,7 @@ import net.minecraft.world.item.ItemStack;
 @Mixin(AnvilMenu.class)
 public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 	@Shadow
-	public int repairItemCountCost;
+	private int repairItemCountCost;
 	@Shadow
 	@Final
 	private DataSlot cost;
