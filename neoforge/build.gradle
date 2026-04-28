@@ -44,7 +44,7 @@ configurations {
 }
 
 jar {
-    exclude("${mod_id}.accesswidener")
+    exclude("xptome.accesswidener")
 }
 
 compileJava {

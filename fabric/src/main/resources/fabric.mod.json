@@ -19,6 +19,7 @@
             "bl4ckscor3.mod.xptome.FabricEntrypoint"
         ]
     },
+    "accessWidener": "xptome.accesswidener",
     "mixins": [
         "xptome.mixins.json",
         "xptome.fabric.mixins.json"
