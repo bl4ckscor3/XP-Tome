@@ -15,6 +15,6 @@ public class ItemTagGenerator extends VanillaItemTagsProvider {
 
 	@Override
 	protected void addTags(HolderLookup.Provider lookupProvider) {
-		tag(ItemTags.BOOKSHELF_BOOKS).add(XPTome.XP_TOME.get());
+		tag(ItemTags.BOOKSHELF_BOOKS).add(XPTome.XP_TOME.key());
 	}
 }
