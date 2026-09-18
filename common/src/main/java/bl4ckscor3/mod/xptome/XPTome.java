@@ -6,6 +6,8 @@ import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 
+import bl4ckscor3.mod.xptome.lib.Platform;
+import bl4ckscor3.mod.xptome.lib.RegisteredItem;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -30,8 +32,8 @@ public class XPTome {
 	public static final Supplier<DataComponentType<Unit>> STORE_UNTIL_PREVIOUS_LEVEL = Suppliers.memoize(() -> DataComponentType.<Unit>builder().persistent(Unit.CODEC).networkSynchronized(StreamCodec.unit(Unit.INSTANCE)).cacheEncoding().build());
 	/** @deprecated This is kept for legacy reasons. Use the field below this one. */
 	@Deprecated
-	public static final RegistryObject<OldXPTomeItem> XP_BOOK = RegistryObject.item("xp_book", OldXPTomeItem::new, () -> new Item.Properties().stacksTo(1));
-	public static final RegistryObject<XPTomeItem> XP_TOME = RegistryObject.item("xp_tome", p -> new XPTomeItem(Configuration.CONFIG.applyToDefaultComponents(p.component(STORED_XP.get(), 0))), () -> new Item.Properties().stacksTo(1));
+	public static final RegisteredItem<OldXPTomeItem> XP_BOOK = RegisteredItem.item("xp_book", OldXPTomeItem::new, () -> new Item.Properties().stacksTo(1));
+	public static final RegisteredItem<XPTomeItem> XP_TOME = RegisteredItem.item("xp_tome", p -> new XPTomeItem(Configuration.CONFIG.applyToDefaultComponents(p.component(STORED_XP.get(), 0))), () -> new Item.Properties().stacksTo(1));
 
 	public synchronized static void initialize(Platform platform) {
 		if (XPTome.platform != null) {
