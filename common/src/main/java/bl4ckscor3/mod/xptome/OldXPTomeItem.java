@@ -45,7 +45,7 @@ public class OldXPTomeItem extends Item {
 	}
 
 	//NeoForge only
-	public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
+	public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<ItemStack> onBroken) {
 		return 0;
 	}
 

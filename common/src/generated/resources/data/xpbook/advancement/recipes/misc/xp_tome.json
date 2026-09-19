@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "xpbook:xp_tome"
+        "recipes": "xpbook:xp_tome"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
